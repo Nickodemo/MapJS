@@ -2,6 +2,16 @@
 <html>
 <meta charset="utf-8" />
 <head>
+	<!-- Bootstrap core CSS -->
+    <link href="./Template_Files/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./Template_Files/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="./Template_Files/cover.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <script src="./Template_Files/ie-emulation-modes-warning.js"></script>
+
+
 	<!--LOCAL<script src="./leaflet.js"></script>-->
 	<!--LOCAL<link rel="stylesheet" href="./leaflet.css" />-->
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -29,10 +39,41 @@
 
 </style>
 </head>
-
 	<body>
-		<div id='map1987' class='mapa_sync'></div>
-		<div id='map2014' class='mapa_sync'></div>
+		<div class="site-wrapper">
+		  <div class="site-wrapper-inner">
+			<div class="cover-container">
+			  <div class="masthead clearfix">
+				<div class="inner">
+				  <h3 class="masthead-brand">Cover</h3>
+				  <nav>
+					<ul class="nav masthead-nav">
+					  <li class="active"><a href="#">Home</a></li>
+					  <li><a href="#">Features</a></li>
+					  <li><a href="#">Contact</a></li>
+					</ul>
+				  </nav>
+				</div>
+			  </div>
+			  <div class="inner cover">
+				<!--PLACE HTML HERE -->
+				<div id='map1987' class='mapa_sync'></div>
+				<div id='map2014' class='mapa_sync'></div>
+			  </div>
+			  <div class="mastfoot">
+				<div class="inner">
+				  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a>.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<script src="./Template_Files/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+		<script src="./Template_Files/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="./Template_Files/ie10-viewport-bug-workaround.js"></script>
 		<script>
 
 		function getColor(Usos_suelo) { 
@@ -136,8 +177,10 @@
 		L.control.scale().addTo(map1987);
 		
 		//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
+		console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
 		map2014.sync(map1987);
-		map1987.sync(map2014);		
+		map1987.sync(map2014);
+		console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
 		</script>
 	</body>
 	
