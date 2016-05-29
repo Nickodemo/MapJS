@@ -119,8 +119,8 @@
 			maxZoom: 18,
 		}).addTo(map2014);
 		
-		L.control.mousePosition().addTo(map1987);		
-		L.control.mousePosition().addTo(map2014);
+		L.control.mousePosition({position:"bottomright"}).addTo(map1987);		
+		L.control.mousePosition({position:"bottomright"}).addTo(map2014);
 		
 		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
