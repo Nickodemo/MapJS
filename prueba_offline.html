@@ -6,8 +6,8 @@
 	<!--LOCAL<link rel="stylesheet" href="./leaflet.css" />-->
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />	
-	<script src="./Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-	<link rel="stylesheet" href="./Leaflet.MousePosition-master/src/L.Control.MousePosition.css"/>
+	<script src="./mouseCoordinate-master/leaflet.mouseCoordinate.js"></script>
+	<link rel="stylesheet" href="./mouseCoordinate-master/leaflet.mouseCoordinate.css"/>
 	<script src="./Leaflet.Sync-master/L.Map.Sync.js"></script>
 	
 	<script src="./Usos_suelo_1987.js"></script>
@@ -122,24 +122,6 @@
 			id: 'mapbox.light', 
 			maxZoom: 18,
 		}).addTo(map2014);
-				
-		map1987.on('zoomend', function () {
-			if (map1987.getZoom() > 12) {
-				map1987.removeLayer(OSM1987);
-			}else
-			{
-				map1987.addLayer(OSM1987);
-			}   
-		}); 
-		
-		map2014.on('zoomend', function () {
-			if (map2014.getZoom() > 12) {
-				map2014.removeLayer(OSM2014);
-			}else
-			{
-				map2014.addLayer(OSM2014);
-			}   
-		}); 
 		
 		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
