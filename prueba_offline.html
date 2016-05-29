@@ -26,17 +26,21 @@
 	#map1987 {
 		float: left;
 	}
-	
 	#map2014 {
 		float: right;
 	}
-	
 	.mapa_sync{
 		width: 49%;
 		height: 780px;
 		box-shadow: 5px 5px 5px #888;
 	}
-
+	.leaflet-popup-content {
+		color: grey;
+		text-shadow: none;
+	}
+	.body{
+		text-shadow: none !important;
+	}
 </style>
 </head>
 	<body>
@@ -45,12 +49,12 @@
 			<div class="cover-container">
 			  <div class="masthead clearfix">
 				<div class="inner">
-				  <h3 class="masthead-brand">Cover</h3>
+				  <h3 class="masthead-brand">Usos del suelo</h3>
 				  <nav>
 					<ul class="nav masthead-nav">
 					  <li class="active"><a href="#">Home</a></li>
 					  <li><a href="#">Features</a></li>
-					  <li><a href="#">Contact</a></li>
+					  <li><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());" href="#">Sincronizar</a></li>
 					</ul>
 				  </nav>
 				</div>
@@ -115,28 +119,6 @@
 			zoom: 10,
 			attributionControl: false,
 		});
-
-		//Cargamos la capa municipios
-		/*L.geoJson(municipios, { 
-			style: { //fillColor: getColor(feature.properties.Usos_suelo), 
-					weight: 2, 
-					opacity: 1, 
-					color: 'black', 
-					dashArray: '3', 
-					fillOpacity: 0.7 
-				}	
-		}).addTo(map);
-		
-		//Cargamos la capa comarca
-		L.geoJson(comarca, { 
-			style: {// fillColor: getColor(feature.properties.Usos_suelo), 
-					weight: 2, 
-					opacity: 1, 
-					color: 'blue', 
-					dashArray: '3', 
-					fillOpacity: 0.7 
-				}
-		}).addTo(map);*/
 		
 		//Cargamos la capa Usos_suelo_2014
 		L.geoJson(Usos_suelo_2014,{ 
@@ -168,19 +150,25 @@
 		L.control.mousePosition({position:"bottomright"}).addTo(map1987);		
 		L.control.mousePosition({position:"bottomright"}).addTo(map2014);
 		
-		//Coordenadas del raton con laeflet.mouseCoordinate
-		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
-		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
-		
 		//Escala distancia abajo izquierda
 		L.control.scale().addTo(map2014);
 		L.control.scale().addTo(map1987);
 		
-		//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
-		console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
-		map2014.sync(map1987);
-		map1987.sync(map2014);
-		console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
+		function sync_mapas(sem){
+			if(sem == false){
+				//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
+				console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
+				map2014.sync(map1987);
+				map1987.sync(map2014);
+				console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
+				document.getElementById("etiq_sync").innerHTML = "Desincronizar";
+			}else{
+				map1987.unsync(map2014);
+				map2014.unsync(map1987);
+				document.getElementById("etiq_sync").innerHTML = "Sincronizar";
+			}
+		}
+		
 		</script>
 	</body>
 	
