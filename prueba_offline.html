@@ -3,22 +3,21 @@
 <meta charset="utf-8" />
 <head>
 	<!-- Bootstrap core CSS -->
-    <link href="./Template_Files/bootstrap.min.css" rel="stylesheet">
+    <link href="Template_Files/bootstrap.min.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="./Template_Files/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="Template_Files/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="./Template_Files/cover.css" rel="stylesheet">
+    <link href="Template_Files/cover.css" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <script src="./Template_Files/ie-emulation-modes-warning.js"></script>
-
+    <script src="Template_Files/ie-emulation-modes-warning.js"></script>
 
 	<!--LOCAL<script src="./leaflet.js"></script>-->
 	<!--LOCAL<link rel="stylesheet" href="./leaflet.css" />-->
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />	
-	<script src="./mouseCoordinate-master/leaflet.mouseCoordinate.js"></script>
+	<script src="mouseCoordinate-master/leaflet.mouseCoordinate.js"></script>
 	<link rel="stylesheet" href="./mouseCoordinate-master/leaflet.mouseCoordinate.css"/>
-	<script src="./Leaflet.Sync-master/L.Map.Sync.js"></script>
+	<script src="Leaflet.Sync-master/L.Map.Sync.js"></script>
 	
 	<script src="./Usos_suelo_1987.js"></script>
 	<script src="./Usos_suelo_2014.js"></script>
@@ -40,6 +39,9 @@
 	}
 	.body{
 		text-shadow: none !important;
+	}
+	.leaflet-control-mouseCoordinate.leaflet-control {
+		width: 166px;
 	}
 </style>
 </head>
@@ -79,7 +81,7 @@
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script src="./Template_Files/ie10-viewport-bug-workaround.js"></script>
 		<script>
-
+		 
 		function getColor(Usos_suelo) { 
 			return  Usos_suelo === "Terrenos con escasa o nula vegetacion" ? '#EFE4BE' : 
 					Usos_suelo === "Salinas" ? '#D2EBFF' : 
@@ -102,10 +104,11 @@
 		
 		function popup(feature, layer) { 
 			if (feature.properties && feature.properties.Usos_suelo) { 
-				layer.bindPopup(feature.properties.Usos_suelo); 
+				_str = '<h5>'+ feature.properties.Usos_suelo + '</h5><p>Description usos del suelo almeriense</p>';
+				layer.bindPopup(_str); 
 			} 
 		}
-		
+			
 		//Constructor mapa2
 		var map2014 = L.map('map2014', {
 			center: [36.76,-2.67], 
@@ -145,24 +148,6 @@
 			id: 'mapbox.light', 
 			maxZoom: 18,
 		}).addTo(map2014);
-				
-		/*map1987.on('zoomend', function () {
-			if (map1987.getZoom() > 12) {
-				map1987.removeLayer(OSM1987);
-			}else
-			{
-				map1987.addLayer(OSM1987);
-			}   
-		}); 
-		
-		map2014.on('zoomend', function () {
-			if (map2014.getZoom() > 12) {
-				map2014.removeLayer(OSM2014);
-			}else
-			{
-				map2014.addLayer(OSM2014);
-			}   
-		});*/ 
 		
 		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
