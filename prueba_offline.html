@@ -24,165 +24,165 @@
 	
 	<script src="./Usos_suelo_1987.js"></script>
 	<script src="./Usos_suelo_2014.js"></script>
-<style>
-	#map1987 {
-		float: left;
-	}
-	#map2014 {
-		float: right;
-	}
-	.mapa_sync{
-		width: 49%;
-		height: 800px;
-		/* box-shadow: 5px 5px 5px #888; */
-	}
-	.leaflet-popup-content {
-		color: grey;
-		text-shadow: none;
-	}
-	.body{
-		text-shadow: none !important;
-	}
-	.leaflet-control-mouseCoordinate.leaflet-control {
-		width: 166px;
-	}
-	.logo{
-		float: left;
-		margin-right: 12px;
-	}
+	<style>
+		#map1987 {
+			float: left;
+		}
+		#map2014 {
+			float: right;
+		}
+		.mapa_sync{
+			width: 49%;
+			height: 800px;
+			/* box-shadow: 5px 5px 5px #888; */
+		}
+		.leaflet-popup-content {
+			color: grey;
+			text-shadow: none;
+		}
+		.body{
+			text-shadow: none !important;
+		}
+		.leaflet-control-mouseCoordinate.leaflet-control {
+			width: 166px;
+		}
+		.logo{
+			float: left;
+			margin-right: 12px;
+		}
 
-</style>
+	</style>
 </head>
-	<body>
-		<div class="site-wrapper">
-		  <div class="site-wrapper-inner">
-			<div class="cover-container">
-			  <div class="masthead clearfix">
-				<div class="inner">
-					<h3 class="masthead-brand">Usos del suelo</h3>
-				  <nav>
-					<ul class="nav masthead-nav">
-					  <li class="active"><a href="#">Home</a></li>
-					  <li><a href="help.html">Ayuda</a></li>
-					  <li><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());" href="#">Sincronizar</a></li>
-					</ul>
-				  </nav>
-				</div>
-			  </div>
-			  <div class="inner cover">
-				<!--PLACE HTML HERE -->
-				<div id='map1987' class='mapa_sync'></div>
-				<div id='map2014' class='mapa_sync'></div>
-			  </div>
-			  <div class="mastfoot">
-				<div class="inner">
-				  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a>.</p>
-				</div>
-			  </div>
+<body>
+	<div class="site-wrapper">
+	  <div class="site-wrapper-inner">
+		<div class="cover-container">
+		  <div class="masthead clearfix">
+			<div class="inner">
+				<h3 class="masthead-brand">Usos del suelo</h3>
+			  <nav>
+				<ul class="nav masthead-nav">
+				  <li class="active"><a href="#">Home</a></li>
+				  <li><a href="help.html">Ayuda</a></li>
+				  <li><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());" href="#">Sincronizar</a></li>
+				</ul>
+			  </nav>
+			</div>
+		  </div>
+		  <div class="inner cover">
+			<!--PLACE HTML HERE -->
+			<div id='map1987' class='mapa_sync'></div>
+			<div id='map2014' class='mapa_sync'></div>
+		  </div>
+		  <div class="mastfoot">
+			<div class="inner">
+			  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a>.</p>
 			</div>
 		  </div>
 		</div>
+	  </div>
+	</div>
 
-		<script src="./Template_Files/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-		<script src="./Template_Files/bootstrap.min.js"></script>
-		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="./Template_Files/ie10-viewport-bug-workaround.js"></script>
-		<script>
-		 
-		function getColor(Usos_suelo) { 
-			return  Usos_suelo === "Terrenos con escasa o nula vegetacion" ? '#EFE4BE' : 
-					Usos_suelo === "Salinas" ? '#D2EBFF' : 
-					Usos_suelo === "Pastizal" ? '#B3FCB3' : 
-					Usos_suelo === "Masas de agua" ? '#97DBF2' : 
-					Usos_suelo === "Huerta" ? '#EEF1F2' : 
-					Usos_suelo === "Frutal" ? '#D68589' : 
-					Usos_suelo === "Cultivos forzados" ? '#F0F0F0' : 
-					Usos_suelo === "Arbolado forestal" ? '#73B273':
-									'#7A6612'; 
-		}
-		
-		function style(feature) { 
-			return {fillColor: getColor(feature.properties.Usos_suelo), 
-					weight: 0, 
-					opacity: 1,
-					fillOpacity: 0.7 
-				}; 
-		}
-		
-		function popup(feature, layer) { 
-			if (feature.properties && feature.properties.Usos_suelo) {
-				_str2 = "<p>"+ feature.properties.Usos_suelo + "</p>";
-				layer.bindPopup(_str2); 
-			} 
-		}
-			
-		//Constructor mapa2
-		var map2014 = L.map('map2014', {
-			center: [36.76,-2.67], 
-			zoom: 10,
-			attributionControl: false,
-		});
-		
-		//Constructor mapa2
-		var map1987= L.map('map1987', {
-			center: [36.76,-2.67], 
-			zoom: 10,
-			attributionControl: false,
-		});
-
-		//Añadimos mapa base como tileLayer
-		var OSM1987 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
-			id: 'mapbox.light', 
-			maxZoom: 18,
-		}).addTo(map1987);
-		
-		//Añadimos mapa base como tileLayer
-		var OSM2014 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
-			id: 'mapbox.light', 
-			maxZoom: 18,
-		}).addTo(map2014);
-				
-		//Cargamos la capa Usos_suelo_2014
-		L.geoJson(Usos_suelo_2014,{ 
-			style: style,
-			onEachFeature: popup			
-		}).addTo(map2014);
-		
-		//Cargamos la capa Usos_suelo_1987
-		L.geoJson(Usos_suelo_1987,{ 
-			style: style,
-			onEachFeature: popup	
-		}).addTo(map1987);
-		
-		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
-		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
-		
-		//Escala distancia abajo izquierda
-		L.control.scale().addTo(map2014);
-		L.control.scale().addTo(map1987);
-		
-		L.easyPrint().addTo(map2014);
-		L.easyPrint().addTo(map1987);
-		
-		function sync_mapas(sem){
-			if(sem == false){
-				//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
-				console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
-				map2014.sync(map1987);
-				map1987.sync(map2014);
-				console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
-				document.getElementById("etiq_sync").innerHTML = "Desincronizar";
-			}else{
-				map1987.unsync(map2014);
-				map2014.unsync(map1987);
-				document.getElementById("etiq_sync").innerHTML = "Sincronizar";
-			}
-		}
-		
-		</script>
-	</body>
+	<script src="./Template_Files/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+	<script src="./Template_Files/bootstrap.min.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="./Template_Files/ie10-viewport-bug-workaround.js"></script>
+	<script>
+	 
+	function getColor(Usos_suelo) { 
+		return  Usos_suelo === "Terrenos con escasa o nula vegetacion" ? '#EFE4BE' : 
+				Usos_suelo === "Salinas" ? '#D2EBFF' : 
+				Usos_suelo === "Pastizal" ? '#B3FCB3' : 
+				Usos_suelo === "Masas de agua" ? '#97DBF2' : 
+				Usos_suelo === "Huerta" ? '#EEF1F2' : 
+				Usos_suelo === "Frutal" ? '#D68589' : 
+				Usos_suelo === "Cultivos forzados" ? '#F0F0F0' : 
+				Usos_suelo === "Arbolado forestal" ? '#73B273':
+								'#7A6612'; 
+	}
 	
+	function style(feature) { 
+		return {fillColor: getColor(feature.properties.Usos_suelo), 
+				weight: 0, 
+				opacity: 1,
+				fillOpacity: 0.7 
+			}; 
+	}
+	
+	function popup(feature, layer) { 
+		if (feature.properties && feature.properties.Usos_suelo) {
+			_str2 = "<p>"+ feature.properties.Usos_suelo + "</p>";
+			layer.bindPopup(_str2); 
+		} 
+	}
+		
+	//Constructor mapa2
+	var map2014 = L.map('map2014', {
+		center: [36.76,-2.67], 
+		zoom: 10,
+		attributionControl: false,
+	});
+	
+	//Constructor mapa2
+	var map1987= L.map('map1987', {
+		center: [36.76,-2.67], 
+		zoom: 10,
+		attributionControl: false,
+	});
+
+	//Añadimos mapa base como tileLayer
+	var OSM1987 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
+		id: 'mapbox.light', 
+		maxZoom: 18,
+	}).addTo(map1987);
+	
+	//Añadimos mapa base como tileLayer
+	var OSM2014 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
+		id: 'mapbox.light', 
+		maxZoom: 18,
+	}).addTo(map2014);
+			
+	//Cargamos la capa Usos_suelo_2014
+	L.geoJson(Usos_suelo_2014,{ 
+		style: style,
+		onEachFeature: popup			
+	}).addTo(map2014);
+	
+	//Cargamos la capa Usos_suelo_1987
+	L.geoJson(Usos_suelo_1987,{ 
+		style: style,
+		onEachFeature: popup	
+	}).addTo(map1987);
+	
+	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
+	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
+	
+	//Escala distancia abajo izquierda
+	L.control.scale().addTo(map2014);
+	L.control.scale().addTo(map1987);
+	
+	//Icono para imprimir en .pdf
+	L.easyPrint().addTo(map2014);
+	L.easyPrint().addTo(map1987);
+	
+	function sync_mapas(sem){
+		if(sem == false){
+			//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
+			console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
+			map2014.sync(map1987);
+			map1987.sync(map2014);
+			console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
+			document.getElementById("etiq_sync").innerHTML = "Desincronizar";
+		}else{
+			map1987.unsync(map2014);
+			map2014.unsync(map1987);
+			document.getElementById("etiq_sync").innerHTML = "Sincronizar";
+		}
+	}
+	
+	</script>
+</body>
 </html>
