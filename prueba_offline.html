@@ -2,13 +2,19 @@
 <html>
 <meta charset="utf-8" />
 <head>
-	<!--LOCAL<script src="./leaflet.js"></script>-->
-	<!--LOCAL<link rel="stylesheet" href="./leaflet.css" />-->
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />	
-	<script src="./Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>
-	<link rel="stylesheet" href="./Leaflet.MousePosition-master/src/L.Control.MousePosition.css"/>
+	<script src="./leaflet.js"></script>
+	<link rel="stylesheet" href="./leaflet.css" />
+	<!--<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>-->
+	<!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />-->	
+	<!--<script src="./Leaflet.MousePosition-master/src/L.Control.MousePosition.js"></script>-->
+	<!--<link rel="stylesheet" href="./Leaflet.MousePosition-master/src/L.Control.MousePosition.css"/>-->
+	
+	<script src="./mouseCoordinate-master/leaflet.mouseCoordinate.js"></script>
+	<link rel="stylesheet" href="./mouseCoordinate-master/leaflet.mouseCoordinate.css"/>
+		
 	<script src="./Leaflet.Sync-master/L.Map.Sync.js"></script>
+	<script src="./Leaflet-MiniMap-master/src/Control.MiniMap.js"></script>
+	<link rel="stylesheet" href="./Leaflet-MiniMap-master/src/Control.MiniMap.css" />
 	
 	<script src="./Usos_suelo_1987.js"></script>
 	<script src="./Usos_suelo_2014.js"></script>
@@ -23,7 +29,7 @@
 	
 	.mapa_sync{
 		width: 49%;
-		height: 780px;
+		height: 600px;
 		box-shadow: 5px 5px 5px #888;
 	}
 
@@ -109,14 +115,14 @@
 			onEachFeature: popup	
 		}).addTo(map1987);
 		
-		//Añadimos mapa base como tileLayer
+		//Añadimos mapa base como tileLayer al mapa de 1987
 		var OSM1987 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
 			id: 'mapbox.light', 
 			maxZoom: 18,
 		}).addTo(map1987);
 		
-		//Añadimos mapa base como tileLayer
+		//Añadimos mapa base como tileLayer al mapa de 2017
 		var OSM2014 = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
 			id: 'mapbox.light', 
@@ -141,12 +147,38 @@
 			}   
 		}); 
 		
-		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
-		L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
+		//Coordenadas del ratón
+		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
+		//L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
 		
 		//Escala distancia abajo izquierda
 		L.control.scale().addTo(map2014);
 		L.control.scale().addTo(map1987);
+		
+		//Mapa de situación
+		var osm1= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
+			id: 'mapbox.light', 
+			minZoom: 5, 
+			maxZoom: 10,
+		});
+		
+		var osm2= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>', 
+			id: 'mapbox.light', 
+			minZoom: 5, 
+			maxZoom: 10,
+		});
+		
+		var miniMap = new L.Control.MiniMap(osm1, {
+			toggleDisplay: true,
+			minimized: true
+		}).addTo(map1987);
+		
+		var miniMap = new L.Control.MiniMap(osm2, {
+			toggleDisplay: true,
+			minimized: true
+		}).addTo(map2014);
 		
 		//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
 		map2014.sync(map1987);
