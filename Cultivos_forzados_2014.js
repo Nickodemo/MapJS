@@ -1,4 +1,4 @@
-var 2014_Cultivos_forzados={
+var Cultivos_forzados_2014={
 "type": "FeatureCollection",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
                                                                                                                                   
