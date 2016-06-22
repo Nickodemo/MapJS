@@ -26,7 +26,7 @@
     <script src="leaflet-easyPrint/dist/leaflet.easyPrint.js"></script>
 	<!--Mapa situacion-->
 	<link rel="stylesheet" href="./Leaflet-MiniMap-master/src/Control.MiniMap.css" />
-	<script src="./Leaflet-MiniMap-master/src/Control.MiniMap.js"></script>
+	<script src="./Leaflet-MiniMap-master/src/Control.MiniMap.js"></script>	
 	<!--Capas 2014 y 1987-->	
 	<script src="./Escasa_nula_vegetacion_2014.js"></script>
 	<script src="./Arbolado_forestal_2014.js"></script>
@@ -59,7 +59,8 @@
 			float: right;
 			text-shadow:none;
 			text-align:left;
-		}	
+		}
+
 		.mapa_sync{
 			width: 49%;
 			height: 780px;
@@ -128,6 +129,11 @@
 								'#7A6612'; 
 	}
 	
+	function opacity_comarca (zoom){
+		return	zoom > 2 ? false:
+						true;
+	}
+	
 	function style(feature) { 
 		return {fillColor: getColor(feature.properties.Usos_suelo), 
 				weight: 0, 
@@ -135,6 +141,14 @@
 				fillOpacity: 0.7 
 			}; 
 	}	
+	
+	function style_comarca(feature) { 
+		return {weight: 3, 
+				opacity: 1,
+				color:'#FFFACD',
+				opacity: opacity_comarca,
+				}; 
+	}
 	
 	function popup(feature, layer) { 
 		if (feature.properties && feature.properties.Usos_suelo) {
@@ -157,7 +171,7 @@
 		map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987] });
 
 	//Cargamos cada capa 2014
-	var layer_comarca_2014 = new L.geoJson(Comarca_2014).addTo(map2014);
+	var layer_comarca_2014 = new L.geoJson(Comarca_2014,{style: style_comarca}).addTo(map2014);
 		layer_forestal_2014 = new L.geoJson(Arbolado_forestal_2014,{style: style, onEachFeature: popup	}).addTo(map2014);		
 		layer_forzados_2014 = new L.geoJson(Cultivos_forzados_2014,{style: style, onEachFeature: popup	}).addTo(map2014);
 		layer_nula_2014 = new L.geoJson(Escasa_nula_vegetacion_2014,{style: style, onEachFeature: popup	}).addTo(map2014);
@@ -169,7 +183,7 @@
 		
 		
 	//Cargamos cada capa 1987
-	var layer_comarca_1987 = new L.geoJson(Comarca_1987).addTo(map1987);
+	var layer_comarca_1987 = new L.geoJson(Comarca_1987,{style: style_comarca}).addTo(map1987);
 		layer_forestal_1987 = new L.geoJson(Arbolado_forestal_1987,{style: style, onEachFeature: popup	}).addTo(map1987);		
 		layer_forzados_1987 = new L.geoJson(Cultivos_forzados_1987,{style: style, onEachFeature: popup	}).addTo(map1987);
 		layer_nula_1987 = new L.geoJson(Escasa_nula_vegetacion_1987,{style: style, onEachFeature: popup	}).addTo(map1987);
@@ -252,6 +266,8 @@
 			document.getElementById("etiq_sync").innerHTML = "Sincronizar";
 		}
 	}
+	
+	
 	
 	</script>
 </body>
