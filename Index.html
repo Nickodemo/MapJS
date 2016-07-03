@@ -6,46 +6,44 @@
 	
     <link rel="icon" href="res/maps.ico">
 	<!-- Bootstrap core CSS -->
-    <link href="Template_Files/bootstrap.min.css" rel="stylesheet">
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="Template_Files/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">    
     <!-- Custom styles for this template -->
-    <link href="Template_Files/cover.css" rel="stylesheet">
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <script src="Template_Files/ie-emulation-modes-warning.js"></script>
+    <link href="css/cover.css" rel="stylesheet">   
 	<!--Libreria Leaflet-->
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />	
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<!--Sincronización del mapa-->	
-	<script src="mouseCoordinate-master/leaflet.mouseCoordinate.js"></script>
-	<link rel="stylesheet" href="./mouseCoordinate-master/leaflet.mouseCoordinate.css"/>
+	<script src="lib/leaflet.mouseCoordinate.js"></script>
+	<link rel="stylesheet" href="css/leaflet.mouseCoordinate.css"/>
 	<!--Sincronización del mapa-->	
-	<script src="Leaflet.Sync-master/L.Map.Sync.js"></script>
+	<script src="lib/L.Map.Sync.js"></script>
 	<!--Impresion mapa-->
-	<link rel="stylesheet" href="leaflet-easyPrint/dist/easyPrint.css"/>
-    <script src="leaflet-easyPrint/dist/leaflet.easyPrint.js"></script>
+	<link rel="stylesheet" href="css/easyPrint.css"/>
+    <script src="lib/leaflet.easyPrint.js"></script>
 	<!--Mapa situacion-->
-	<link rel="stylesheet" href="./Leaflet-MiniMap-master/src/Control.MiniMap.css" />
-	<script src="./Leaflet-MiniMap-master/src/Control.MiniMap.js"></script>			
+	<link rel="stylesheet" href="css/Control.MiniMap.css" />
+	<script src="lib/Control.MiniMap.js"></script>		
+	<!--Turf.js-->
+	<script src="lib/turf.min.js"></script>		
 	<!--Capas 2014 y 1987-->	
-	<script src="./Escasa_nula_vegetacion_2014.js"></script>
-	<script src="./Arbolado_forestal_2014.js"></script>
-	<script src="./Cultivos_forzados_2014.js"></script>
-	<script src="./Frutal_2014.js"></script>
-	<script src="./Huerta_2014.js"></script>
-	<script src="./Masas_agua_2014.js"></script>
-	<script src="./Pastizal_2014.js"></script>
-	<script src="./Salinas_2014.js"></script>	
-	<script src="./Escasa_nula_vegetacion_1987.js"></script>
-	<script src="./Arbolado_forestal_1987.js"></script>
-	<script src="./Cultivos_forzados_1987.js"></script>
-	<script src="./Frutal_1987.js"></script>
-	<script src="./Huerta_1987.js"></script>
-	<script src="./Masas_agua_1987.js"></script>
-	<script src="./Pastizal_1987.js"></script>
-	<script src="./Salinas_1987.js"></script>
-	<script src="./Comarca_1987.js"></script>
-	<script src="./Comarca_2014.js"></script>
+	<script src="source/Escasa_nula_vegetacion_2014.js"></script>
+	<script src="source/Arbolado_forestal_2014.js"></script>
+	<script src="source/Cultivos_forzados_2014.js"></script>
+	<script src="source/Frutal_2014.js"></script>
+	<script src="source/Huerta_2014.js"></script>
+	<script src="source/Masas_agua_2014.js"></script>
+	<script src="source/Pastizal_2014.js"></script>
+	<script src="source/Salinas_2014.js"></script>	
+	<script src="source/Escasa_nula_vegetacion_1987.js"></script>
+	<script src="source/Arbolado_forestal_1987.js"></script>
+	<script src="source/Cultivos_forzados_1987.js"></script>
+	<script src="source/Frutal_1987.js"></script>
+	<script src="source/Huerta_1987.js"></script>
+	<script src="source/Masas_agua_1987.js"></script>
+	<script src="source/Pastizal_1987.js"></script>
+	<script src="source/Salinas_1987.js"></script>
+	<script src="source/Comarca_1987.js"></script>
+	<script src="source/Comarca_2014.js"></script>
 	
 	
 	<style>
@@ -110,11 +108,9 @@
 	  </div>
 	</div>
 
-	<script src="./Template_Files/jquery.min.js"></script>
+	<script src="./lib/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-	<script src="./Template_Files/bootstrap.min.js"></script>
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="./Template_Files/ie10-viewport-bug-workaround.js"></script>
+	<script src="./lib/bootstrap.min.js"></script>	
 	<script>
 	 
 	function getColor(Usos_suelo) { 
