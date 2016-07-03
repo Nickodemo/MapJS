@@ -87,18 +87,29 @@
 				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
-				  <li class="active"><a href="index.html">Home</a></li>
-				  <li><a href="help.html">Ayuda</a></li>
+				  <li class="active"><a onclick="hide_mapas('view1');">Home</a></li>
+				  <li><a id="etiq_views" onclick="hide_mapas('view2');">Ayuda</a></li>
 				  <li><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
 			  </nav>
 			</div>
 		  </div>
 		  <div class="inner cover">
-			<!--PLACE HTML HERE -->
-			<div id='map1987' class='mapa_sync'></div>
-			<div id='map2014' class='mapa_sync'></div>
-		  </div>
+		  
+			<div id= 'view1' class="inner cover">			
+				<div id='map1987' class='mapa_sync'></div>
+				<div id='map2014' class='mapa_sync'></div>
+			</div>
+			  
+			<div id= 'view2'class="inner cover" style="display: none;">
+				<h1 class="cover-heading">Cover your page.</h1>
+				<p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+				<p class="lead">
+				<a href="#" class="btn btn-lg btn-default">Learn more</a>
+				</p>
+			</div>
+			  
+			</div>
 		  <div class="mastfoot">
 			<div class="inner">
 			  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a></p>
@@ -129,6 +140,28 @@
 		return	zoom > 2 ? false:
 						true;
 	}*/
+	
+	function show (elements, specifiedDisplay) {
+	  elements = elements.length ? elements : [elements];
+	  for (var index = 0; index < elements.length; index++) {
+		elements[index].style.display = specifiedDisplay || 'block';
+	  }
+	}
+	
+	function hide (elements) {
+	  elements = elements.length ? elements : [elements];
+	  for (var index = 0; index < elements.length; index++) {
+		elements[index].style.display = 'none';
+	  }
+	}
+
+	//Ocultar o mostrar vistas
+	function hide_mapas(op){
+			hide(document.getElementById('view1'));
+			hide(document.getElementById('view2'));
+			show(document.getElementById(op));
+	}
+	
 	
 	function style(feature) { 
 		return {fillColor: getColor(feature.properties.Usos_suelo), 
