@@ -47,21 +47,26 @@
 	
 	
 	<style>
-		#map1987 {
-			float: left;
+		.simple_view {			
 			text-shadow:none;
 			text-align:left;
+			width:100%;
+		}
+		
+		.left_map1987 {
+			float: left;
+			width:49%;
 		}
 	
-		#map2014 {
+		.right_map2014 {
 			float: right;
-			text-shadow:none;
-			text-align:left;
+			width:49%;
 		}
 
-		.mapa_sync{
-			width: 49%;
-			height: 780px;
+		.mapa_sync{		
+			height: 450px;
+			text-shadow:none;
+			text-align:left;
 			/*box-shadow: 5px 5px 5px #888;*/
 		}
 		.leaflet-popup-content {
@@ -87,29 +92,25 @@
 				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
-				  <li class="active"><a onclick="hide_mapas('view1');">Home</a></li>
-				  <li><a id="etiq_views" onclick="hide_mapas('view2');">Ayuda</a></li>
-				  <li><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());">Sincronizar</a></li>
+				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
+				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa simple 1987</a></li>
+				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa simple 2014</a></li>
+				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
+				  <li id="tab_sync"><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
 			  </nav>
 			</div>
 		  </div>
-		  <div class="inner cover">
 		  
-			<div id= 'view1' class="inner cover">			
-				<div id='map1987' class='mapa_sync'></div>
-				<div id='map2014' class='mapa_sync'></div>
+			<div id= 'home'class="inner cover" style="display: none;">
+				<h1 class="cover-heading">Cover your page.</h1>				
+			</div>
+			
+			<div id= 'doble_view' class="inner cover">			
+				<div id='map1987' class='mapa_sync left_map1987'></div>
+				<div id='map2014' class='mapa_sync right_map2014'></div>
 			</div>
 			  
-			<div id= 'view2'class="inner cover" style="display: none;">
-				<h1 class="cover-heading">Cover your page.</h1>
-				<p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-				<p class="lead">
-				<a href="#" class="btn btn-lg btn-default">Learn more</a>
-				</p>
-			</div>
-			  
-			</div>
 		  <div class="mastfoot">
 			<div class="inner">
 			  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a></p>
@@ -156,10 +157,66 @@
 	}
 
 	//Ocultar o mostrar vistas
-	function hide_mapas(op){
-			hide(document.getElementById('view1'));
-			hide(document.getElementById('view2'));
+	function views_type(op){
+		hide(document.getElementById('home'));
+		hide(document.getElementById('doble_view'));
+		hide(document.getElementById('map1987'));
+		hide(document.getElementById('map2014'));
+		
+		$('#tab_home').removeClass('active');
+		$('#tab_1987').removeClass('active');
+		$('#tab_2014').removeClass('active');
+		$('#tab_doble').removeClass('active');
+		$('#tab_sync').removeClass('active');
+		
+		
+		if (op=='home'){
+			show(document.getElementById(op));	
+
+			$('#tab_home').addClass('active');
+			
+		}else if (op=='doble_view'){
 			show(document.getElementById(op));
+			show(document.getElementById('map1987'));
+			show(document.getElementById('map2014'));
+			
+			$('#map1987').removeClass('simple_view');
+			$('#map1987').addClass('left_map1987');
+			
+			$('#map2014').removeClass('simple_view');
+			$('#map2014').addClass('right_map2014');
+			
+			$('#tab_doble').addClass('active');
+			
+			map1987.setView([36.76,-2.67]);
+			map1987._onResize();
+			map2014.setView([36.76,-2.67]);
+			map2014._onResize();
+			
+		}else if (op=='map1987'){
+			show(document.getElementById(op));
+			show(document.getElementById('doble_view'));
+			
+			$('#'+op).removeClass('left_map1987');
+			$('#'+op).addClass('simple_view');
+			
+			$('#tab_1987').addClass('active');
+			
+			map1987.setView([36.76,-2.67]);
+			map1987._onResize();
+						
+		}else if (op=='map2014'){
+			show(document.getElementById(op));
+			show(document.getElementById('doble_view'));
+			
+			$('#'+op).removeClass('right_map2014');
+			$('#'+op).addClass('simple_view');
+			
+			$('#tab_2014').addClass('active');
+			
+			map2014.setView([36.76,-2.67]);
+			map2014._onResize();
+		}		
 	}
 	
 	
@@ -323,16 +380,22 @@
 			map1987.sync(map2014);
 			console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
 			document.getElementById("etiq_sync").innerHTML = "Desincronizar";
+			
+			$('#tab_sync').addClass('active');
+			
 		}else{
 			map1987.unsync(map2014);
 			map2014.unsync(map1987);
 			document.getElementById("etiq_sync").innerHTML = "Sincronizar";
-		}
+			
+			$('#tab_sync').removeClass('active');
+		}		
 	}
 	
 	//Geoprocesos con Turf.js
 	
-	
+	//ÑAPONNN!
+	views_type('home');
 	</script>
 </body>
 	
