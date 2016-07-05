@@ -50,6 +50,9 @@
 	<script src="source/Comarca_2014.js"></script>
 	
 	<style>
+		a{
+			cursor: pointer;
+		}
 		.simple_view {			
 			text-shadow:none;
 			text-align:left;
@@ -67,7 +70,7 @@
 		}
 
 		.mapa_sync{		
-			height: 650px;
+			height: 750px;
 			text-shadow:none;
 			text-align:left;
 			/*box-shadow: 5px 5px 5px #888;*/
@@ -82,7 +85,7 @@
 		.leaflet-control-mouseCoordinate.leaflet-control {
 			width: 166px;
 		}
-				
+		
 	</style>
 </head>
 
@@ -92,12 +95,12 @@
 		<div class="cover-container">
 		  <div class="masthead clearfix">
 			<div class="inner">
-				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
+				<h3 class="masthead-brand">Cobertura del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
 				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
-				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa simple 1987</a></li>
-				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa simple 2014</a></li>
+				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
+				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa 2014</a></li>
 				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
 				  <li id="tab_sync"><a id="etiq_sync" onclick="syncMaps(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
@@ -106,6 +109,20 @@
 		  </div>
 		  
 			<div id= 'home'class="inner cover" style="display: none;">
+				
+				<div class="container ">
+					<div class="row">
+						<div class="col-xs-12 col-md-4">
+							<a onclick="views_type('map1987');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<a onclick="views_type('map2014');" class="thumbnail"><img src="res/screenshoot2.png" alt="..."></a>
+						</div>
+						<div class="col-xs-12 col-md-4">
+							<a onclick="views_type('doble_view');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
+						</div>
+					</div>
+				</div>
 				<h1 class="cover-heading">Cover your page.</h1>				
 			</div>
 			
