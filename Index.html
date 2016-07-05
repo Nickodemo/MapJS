@@ -25,8 +25,6 @@
 	<script src="lib/Control.MiniMap.js"></script>		
 	<!--Turf.js-->
 	<script src="lib/turf.min.js"></script>		
-	<!--Custom library functions.js-->
-	<!--<script src="lib/functions.js"></script>-->
 	<!--Capas 2014 y 1987-->	
 	<script src="source/Escasa_nula_vegetacion_2014.js"></script>
 	<script src="source/Arbolado_forestal_2014.js"></script>
@@ -66,7 +64,7 @@
 		}
 
 		.mapa_sync{		
-			height: 450px;
+			height: 650px;
 			text-shadow:none;
 			text-align:left;
 			/*box-shadow: 5px 5px 5px #888;*/
@@ -94,10 +92,10 @@
 				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
-				  <li id="tab_home" class="active"><a onclick="setViewTab('home');">Home</a></li>				  
-				  <li id="tab_1987"><a onclick="setViewTab('map1987');">Mapa simple 1987</a></li>
-				  <li id="tab_2014"><a onclick="setViewTab('map2014');">Mapa simple 2014</a></li>
-				  <li id="tab_doble"><a onclick="setViewTab('doble_view');">Mapa doble</a></li>
+				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
+				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa simple 1987</a></li>
+				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa simple 2014</a></li>
+				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
 				  <li id="tab_sync"><a id="etiq_sync" onclick="syncMaps(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
 			  </nav>
@@ -159,14 +157,19 @@
 	}
 
 	//Ocultar o mostrar vistas
-	function setViewTab(op){
+	function views_type(op){
 		hide(document.getElementById('home'));
 		hide(document.getElementById('doble_view'));
 		hide(document.getElementById('map1987'));
 		hide(document.getElementById('map2014'));
 		
-		$('#tab_home,#tab_1987,#tab_2014,#tab_doble,#tab_sync').removeClass('active');
-	
+		$('#tab_home').removeClass('active');
+		$('#tab_1987').removeClass('active');
+		$('#tab_2014').removeClass('active');
+		$('#tab_doble').removeClass('active');
+		$('#tab_sync').removeClass('active');
+		syncMaps(true);
+		
 		if (op=='home'){
 			show(document.getElementById(op));	
 
@@ -177,9 +180,18 @@
 			show(document.getElementById('map1987'));
 			show(document.getElementById('map2014'));
 			
-			$('#map1987,#map2014').removeClass('simple_view');
-			$('#map2014,#map1987,#tab_doble').addClass('left_map1987');
+			$('#map1987').removeClass('simple_view');
+			$('#map1987').addClass('left_map1987');
 			
+			$('#map2014').removeClass('simple_view');
+			$('#map2014').addClass('right_map2014');
+			
+			$('#tab_doble').addClass('active');
+			
+			map1987.setView([36.76,-2.67]);
+			map1987._onResize();
+			map2014.setView([36.76,-2.67]);
+			map2014._onResize();
 			
 		}else if (op=='map1987'){
 			show(document.getElementById(op));
@@ -190,6 +202,9 @@
 			
 			$('#tab_1987').addClass('active');
 			
+			map1987.setView([36.76,-2.67]);
+			map1987._onResize();
+						
 		}else if (op=='map2014'){
 			show(document.getElementById(op));
 			show(document.getElementById('doble_view'));
@@ -198,13 +213,10 @@
 			$('#'+op).addClass('simple_view');
 			
 			$('#tab_2014').addClass('active');
-
-		}
-
-		map1987.setView([36.76,-2.67]);
-		map2014.setView([36.76,-2.67]);
-		map1987._onResize();
-		map2014._onResize();
+			
+			map2014.setView([36.76,-2.67]);
+			map2014._onResize();
+		}		
 	}
 	
 	
@@ -382,8 +394,8 @@
 	
 	//Geoprocesos con Turf.js
 	
-	//Warning !
-	setViewTab('home');
+	//ÑAPONNN!
+	views_type('home');
 	</script>
 </body>
 	
