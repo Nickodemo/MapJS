@@ -5,7 +5,9 @@
 	<title>Map Template for land use</title>
 	
     <link rel="icon" href="res/maps.ico">
-	<!-- Bootstrap core CSS -->
+	<script src="lib/jquery.min.js"></script>
+	<!-- Bootstrap core -->
+	<script src="lib/bootstrap.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">    
     <!-- Custom styles for this template -->
     <link href="css/cover.css" rel="stylesheet">   
@@ -25,6 +27,8 @@
 	<script src="lib/Control.MiniMap.js"></script>		
 	<!--Turf.js-->
 	<script src="lib/turf.min.js"></script>		
+	<!--Custom functions-->	
+	<script src="lib/functions.js"></script>		
 	<!--Capas 2014 y 1987-->	
 	<script src="source/Escasa_nula_vegetacion_2014.js"></script>
 	<script src="source/Arbolado_forestal_2014.js"></script>
@@ -45,8 +49,12 @@
 	<script src="source/Comarca_1987.js"></script>
 	<script src="source/Comarca_2014.js"></script>
 	
-	
 	<style>
+		
+		a{
+			cursor: pointer;
+		}
+		
 		.simple_view {			
 			text-shadow:none;
 			text-align:left;
@@ -64,7 +72,7 @@
 		}
 
 		.mapa_sync{		
-			height: 450px;
+			height: 750px;
 			text-shadow:none;
 			text-align:left;
 			/*box-shadow: 5px 5px 5px #888;*/
@@ -79,7 +87,7 @@
 		.leaflet-control-mouseCoordinate.leaflet-control {
 			width: 166px;
 		}
-				
+		
 	</style>
 </head>
 
@@ -89,20 +97,34 @@
 		<div class="cover-container">
 		  <div class="masthead clearfix">
 			<div class="inner">
-				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
+				<h3 class="masthead-brand">Cobertura del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
 				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
-				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa simple 1987</a></li>
-				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa simple 2014</a></li>
+				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
+				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa 2014</a></li>
 				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
-				  <li id="tab_sync"><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());">Sincronizar</a></li>
+				  <li id="tab_sync"><a id="etiq_sync" onclick="syncMaps(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
 			  </nav>
 			</div>
 		  </div>
 		  
 			<div id= 'home'class="inner cover" style="display: none;">
+				
+				<div class="container ">
+					<div class="row">
+						<div class="col-xs-3 col-md-4">
+							<a onclick="views_type('map1987');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
+						</div>
+						<div class="col-xs-3 col-md-4">
+							<a onclick="views_type('map2014');" class="thumbnail"><img src="res/screenshoot2.png" alt="..."></a>
+						</div>
+						<div class="col-xs-3 col-md-4">
+							<a onclick="views_type('doble_view');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
+						</div>
+					</div>
+				</div>
 				<h1 class="cover-heading">Cover your page.</h1>				
 			</div>
 			
@@ -119,164 +141,7 @@
 		</div>
 	  </div>
 	</div>
-
-	<script src="./lib/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-	<script src="./lib/bootstrap.min.js"></script>	
 	<script>
-	 
-	function getColor(Usos_suelo) { 
-		return  Usos_suelo === "Terrenos con escasa o nula vegetacion" ? '#EFE4BE' : 
-				Usos_suelo === "Salinas" ? '#D2EBFF' : 
-				Usos_suelo === "Pastizal" ? '#B3FCB3' : 
-				Usos_suelo === "Masas de agua" ? '#97DBF2' : 
-				Usos_suelo === "Huerta" ? '#EEF1F2' : 
-				Usos_suelo === "Frutal" ? '#D68589' : 
-				Usos_suelo === "Cultivos forzados" ? '#F0F0F0' : 
-				Usos_suelo === "Arbolado forestal" ? '#73B273':
-								'#7A6612'; 
-	}
-	
-	/*function opacity_comarca (zoom){
-		return	zoom > 2 ? false:
-						true;
-	}*/
-	
-	function show (elements, specifiedDisplay) {
-	  elements = elements.length ? elements : [elements];
-	  for (var index = 0; index < elements.length; index++) {
-		elements[index].style.display = specifiedDisplay || 'block';
-	  }
-	}
-	
-	function hide (elements) {
-	  elements = elements.length ? elements : [elements];
-	  for (var index = 0; index < elements.length; index++) {
-		elements[index].style.display = 'none';
-	  }
-	}
-
-	//Ocultar o mostrar vistas
-	function views_type(op){
-		hide(document.getElementById('home'));
-		hide(document.getElementById('doble_view'));
-		hide(document.getElementById('map1987'));
-		hide(document.getElementById('map2014'));
-		
-		$('#tab_home').removeClass('active');
-		$('#tab_1987').removeClass('active');
-		$('#tab_2014').removeClass('active');
-		$('#tab_doble').removeClass('active');
-		$('#tab_sync').removeClass('active');
-		
-		
-		if (op=='home'){
-			show(document.getElementById(op));	
-
-			$('#tab_home').addClass('active');
-			
-		}else if (op=='doble_view'){
-			show(document.getElementById(op));
-			show(document.getElementById('map1987'));
-			show(document.getElementById('map2014'));
-			
-			$('#map1987').removeClass('simple_view');
-			$('#map1987').addClass('left_map1987');
-			
-			$('#map2014').removeClass('simple_view');
-			$('#map2014').addClass('right_map2014');
-			
-			$('#tab_doble').addClass('active');
-			
-			map1987.setView([36.76,-2.67]);
-			map1987._onResize();
-			map2014.setView([36.76,-2.67]);
-			map2014._onResize();
-			
-		}else if (op=='map1987'){
-			show(document.getElementById(op));
-			show(document.getElementById('doble_view'));
-			
-			$('#'+op).removeClass('left_map1987');
-			$('#'+op).addClass('simple_view');
-			
-			$('#tab_1987').addClass('active');
-			
-			map1987.setView([36.76,-2.67]);
-			map1987._onResize();
-						
-		}else if (op=='map2014'){
-			show(document.getElementById(op));
-			show(document.getElementById('doble_view'));
-			
-			$('#'+op).removeClass('right_map2014');
-			$('#'+op).addClass('simple_view');
-			
-			$('#tab_2014').addClass('active');
-			
-			map2014.setView([36.76,-2.67]);
-			map2014._onResize();
-		}		
-	}
-	
-	
-	function style(feature) { 
-		return {fillColor: getColor(feature.properties.Usos_suelo), 
-				weight: 0, 
-				opacity: 1,
-				fillOpacity: 0.7 
-			}; 
-	}	
-	
-	function style_comarca(feature) { 
-		return {weight: 3, 
-				opacity: 1,
-				color:'#FFFACD',
-				/*opacity: opacity_comarca,*/
-				maxZoom:2
-				}; 
-	}
-	
-	function highlightFeature(e) {
-		var layer = e.target;
-
-		layer.setStyle({
-			weight: 5,
-			color: '#666',
-			dashArray: '',
-			fillOpacity: 0.7
-		});
-
-	}
-	function resetHighlight(e) {
-		layer_frutal_2014.resetStyle(e.target);
-		layer_forestal_2014.resetStyle(e.target);
-		layer_forzados_2014.resetStyle(e.target);
-		layer_huerta_2014.resetStyle(e.target);
-		layer_agua_2014.resetStyle(e.target);
-		layer_pastizal_2014.resetStyle(e.target);
-		layer_salinas_2014.resetStyle(e.target);
-		
-		layer_frutal_1987.resetStyle(e.target);
-		layer_forestal_1987.resetStyle(e.target);
-		layer_forzados_1987.resetStyle(e.target);
-		layer_huerta_1987.resetStyle(e.target);
-		layer_agua_1987.resetStyle(e.target);
-		layer_pastizal_1987.resetStyle(e.target);
-		layer_salinas_1987.resetStyle(e.target);
-	}
-	
-	function onEachFeature(feature, layer) {
-		layer.on({
-			mouseover: highlightFeature,
-			mouseout: resetHighlight
-		});
-		if (feature.properties && feature.properties.Usos_suelo) {
-			_str2 = "<p><h4>" + feature.properties.Usos_suelo + "</h4>" + turf.area(feature).toPrecision(6) + " m2</p>";
-			layer.bindPopup(_str2); 
-		} 
-	}
-	
 				
 	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
@@ -371,30 +236,10 @@
 	//Icono para imprimir en .pdf
 	L.easyPrint({elementsToHide: 'li'}).addTo(map2014);
 	L.easyPrint({elementsToHide: 'li'}).addTo(map1987);
-		
-	//Sincronizar los mapas de 2014 y 1987 con leaflet.sync
-	function sync_mapas(sem){
-		if(sem == false){			
-			console.log('LOG: starting sync map: ' + window.performance.now()/1000 + ' sec.');
-			map2014.sync(map1987);
-			map1987.sync(map2014);
-			console.log('LOG: ending sync map: ' + window.performance.now()/1000 + ' sec.');
-			document.getElementById("etiq_sync").innerHTML = "Desincronizar";
-			
-			$('#tab_sync').addClass('active');
-			
-		}else{
-			map1987.unsync(map2014);
-			map2014.unsync(map1987);
-			document.getElementById("etiq_sync").innerHTML = "Sincronizar";
-			
-			$('#tab_sync').removeClass('active');
-		}		
-	}
 	
 	//Geoprocesos con Turf.js
 	
-	//ÑAPONNN!
+	//Warning!
 	views_type('home');
 	</script>
 </body>
