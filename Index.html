@@ -12,8 +12,9 @@
     <!-- Custom styles for this template -->
     <link href="css/cover.css" rel="stylesheet">   
 	<!--Libreria Leaflet-->
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />	
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<script src="lib/leaflet.js"></script>
+	
 	<!--Sincronización del mapa-->	
 	<script src="lib/leaflet.mouseCoordinate.js"></script>
 	<link rel="stylesheet" href="css/leaflet.mouseCoordinate.css"/>
@@ -28,7 +29,12 @@
 	<!--Turf.js-->
 	<script src="lib/turf.min.js"></script>		
 	<!--Custom functions-->	
-	<script src="lib/functions.js"></script>		
+	<script src="lib/functions.js"></script>
+	<!--Draw-->
+	<link rel="stylesheet" href="css/leaflet.draw.css">
+	<script src="lib/leaflet.draw.js"></script>
+
+
 	<!--Capas 2014 y 1987-->	
 	<script src="source/Escasa_nula_vegetacion_2014.js"></script>
 	<script src="source/Arbolado_forestal_2014.js"></script>
@@ -237,7 +243,101 @@
 	L.easyPrint({elementsToHide: 'li'}).addTo(map2014);
 	L.easyPrint({elementsToHide: 'li'}).addTo(map1987);
 	
-	//Geoprocesos con Turf.js
+	//Geoprocesos con Turf.js----------------------------------------
+	
+	// Initialise the FeatureGroup to store editable layers
+	var drawnItems1987 = new L.FeatureGroup();
+	var drawnItems2014 = new L.FeatureGroup();
+	map1987.addLayer(drawnItems1987);
+	map2014.addLayer(drawnItems2014);
+
+	// Initialise the draw control and pass it the FeatureGroup of editable layers
+	var drawControl1987 = new L.Control.Draw({
+		draw: {
+			position: 'topleft',
+			polygon: {
+				title: 'Draw a sexy polygon!',
+				allowIntersection: false,
+				drawError: {
+					color: '#b00b00',
+					timeout: 1000
+				},
+				shapeOptions: {
+					color: '#bada55'
+				},
+				showArea: true
+			},
+			polyline: {
+				metric: false
+			},
+			circle: {
+				shapeOptions: {
+					color: '#662d91'
+				}
+			}
+		},
+		edit: {
+			featureGroup: drawnItems1987
+		}
+	});
+	
+	var drawControl2014 = new L.Control.Draw({
+		draw: {
+			position: 'topleft',
+			polygon: {
+				title: 'Draw a sexy polygon!',
+				allowIntersection: false,
+				drawError: {
+					color: '#b00b00',
+					timeout: 1000
+				},
+				shapeOptions: {
+					color: '#bada55'
+				},
+				showArea: true
+			},
+			polyline: {
+				metric: false
+			},
+			circle: {
+				shapeOptions: {
+					color: '#662d91'
+				}
+			}
+		},
+		edit: {
+			featureGroup: drawnItems2014
+		}
+	});
+	
+	map1987.addControl(drawControl1987);
+	map2014.addControl(drawControl2014);	
+	
+	
+	//Triggered when a new vector or marker has been created
+	map1987.on('draw:created', function (e) {
+		var type = e.layerType,
+			layer = e.layer;
+
+		if (type === 'marker') {
+			layer.bindPopup('A popup!');
+		}
+
+		drawnItems1987.addLayer(layer);
+	});
+		
+	map2014.on('draw:created', function (e) {
+		var type = e.layerType,
+			layer = e.layer;
+
+		if (type === 'marker') {
+			layer.bindPopup('A popup!');
+		}
+
+		drawnItems2014.addLayer(layer);
+	});
+	
+	//---------------------------------------------------------------
 	
 	//Warning!
 	views_type('home');
