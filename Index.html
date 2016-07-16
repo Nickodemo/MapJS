@@ -34,26 +34,9 @@
 	<link rel="stylesheet" href="css/leaflet.draw.css">
 	<script src="lib/leaflet.draw.js"></script>
 
-
-	<!--Capas 2014 y 1987-->	
-	<script src="source/Escasa_nula_vegetacion_2014.js"></script>
-	<script src="source/Arbolado_forestal_2014.js"></script>
-	<script src="source/Cultivos_forzados_2014.js"></script>
-	<script src="source/Frutal_2014.js"></script>
-	<script src="source/Huerta_2014.js"></script>
-	<script src="source/Masas_agua_2014.js"></script>
-	<script src="source/Pastizal_2014.js"></script>
-	<script src="source/Salinas_2014.js"></script>	
-	<script src="source/Escasa_nula_vegetacion_1987.js"></script>
-	<script src="source/Arbolado_forestal_1987.js"></script>
-	<script src="source/Cultivos_forzados_1987.js"></script>
-	<script src="source/Frutal_1987.js"></script>
-	<script src="source/Huerta_1987.js"></script>
-	<script src="source/Masas_agua_1987.js"></script>
-	<script src="source/Pastizal_1987.js"></script>
-	<script src="source/Salinas_1987.js"></script>
-	<script src="source/Comarca_1987.js"></script>
-	<script src="source/Comarca_2014.js"></script>
+	<!--Capa 1987-->		
+	<script src="source/Usos_suelo_1987.js"></script>
+	
 	
 	<style>
 		
@@ -108,9 +91,7 @@
 				<ul class="nav masthead-nav">
 				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
 				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
-				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa 2014</a></li>
-				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
-				  <li id="tab_sync"><a id="etiq_sync" onclick="syncMaps(map1987.isSynced());">Sincronizar</a></li>
+				  
 				</ul>
 			  </nav>
 			</div>
@@ -123,22 +104,15 @@
 						<div class="col-xs-3 col-md-4">
 							<a onclick="views_type('map1987');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
 						</div>
-						<div class="col-xs-3 col-md-4">
-							<a onclick="views_type('map2014');" class="thumbnail"><img src="res/screenshoot2.png" alt="..."></a>
-						</div>
-						<div class="col-xs-3 col-md-4">
-							<a onclick="views_type('doble_view');" class="thumbnail"><img src="res/screenshoot1.png" alt="..."></a>
-						</div>
+											
 					</div>
 				</div>
 				<h1 class="cover-heading">Cover your page.</h1>				
 			</div>
-			
-			<div id= 'doble_view' class="inner cover">			
-				<div id='map1987' class='mapa_sync left_map1987'></div>
-				<div id='map2014' class='mapa_sync right_map2014'></div>
+			<div id='double_view' class="inner cover">			
+				<div id='map1987' class="mapa_sync"></div>
 			</div>
-			  
+			
 		  <div class="mastfoot">
 			<div class="inner">
 			  <p>Map Template for <a href="#">Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a></p>
@@ -153,103 +127,20 @@
 		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
 
 	//Añadimos mapa base como tileLayer
-	var OSM1987 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
-		OSM2014 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
-		streets2014  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
-		streets1987  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
+	var OSM1987 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });		
+	
+	//Creo la capa
+	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014] });
-		map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987] });
-
-	//Cargamos cada capa 2014
-	var layer_comarca_2014 = new L.geoJson(Comarca_2014,{style: style_comarca}).addTo(map2014);
-		layer_forestal_2014 = new L.geoJson(Arbolado_forestal_2014,{style: style, onEachFeature: onEachFeature	}).addTo(map2014);		
-		layer_forzados_2014 = new L.geoJson(Cultivos_forzados_2014,{style: style, onEachFeature: onEachFeature	}).addTo(map2014);
-		layer_nula_2014 = new L.geoJson(Escasa_nula_vegetacion_2014,{style: style, onEachFeature: onEachFeature	}).addTo(map2014);
-		layer_frutal_2014 = new L.geoJson(Frutal_2014,{ style: style, onEachFeature: onEachFeature }).addTo(map2014);
-		layer_huerta_2014 = new L.geoJson(Huerta_2014,{ style: style, onEachFeature: onEachFeature }).addTo(map2014);
-		layer_agua_2014 = new L.geoJson(Masas_agua_2014,{ style: style, onEachFeature: onEachFeature }).addTo(map2014);		
-		layer_pastizal_2014 = new L.geoJson(Pastizal_2014,{ style: style, onEachFeature: onEachFeature }).addTo(map2014);		
-		layer_salinas_2014 = new L.geoJson(Salinas_2014,{style: style, onEachFeature: onEachFeature	}).addTo(map2014);	
-				
-	//Cargamos cada capa 1987
-	var layer_comarca_1987 = new L.geoJson(Comarca_1987,{style: style_comarca}).addTo(map1987);
-		layer_forestal_1987 = new L.geoJson(Arbolado_forestal_1987,{style: style, onEachFeature: onEachFeature	}).addTo(map1987);		
-		layer_forzados_1987 = new L.geoJson(Cultivos_forzados_1987,{style: style, onEachFeature: onEachFeature	}).addTo(map1987);
-		layer_nula_1987 = new L.geoJson(Escasa_nula_vegetacion_1987,{style: style, onEachFeature: onEachFeature	}).addTo(map1987);
-		layer_frutal_1987 = new L.geoJson(Frutal_1987,{ style: style, onEachFeature: onEachFeature }).addTo(map1987);
-		layer_huerta_1987 = new L.geoJson(Huerta_1987,{ style: style, onEachFeature: onEachFeature }).addTo(map1987);
-		layer_agua_1987 = new L.geoJson(Masas_agua_1987,{ style: style, onEachFeature: onEachFeature }).addTo(map1987);		
-		layer_pastizal_1987 = new L.geoJson(Pastizal_1987,{ style: style, onEachFeature: onEachFeature }).addTo(map1987);		
-		layer_salinas_1987 = new L.geoJson(Salinas_1987,{style: style, onEachFeature: onEachFeature	}).addTo(map1987);			
-	
-	//Incorporación capas en el grupo de capas
-	var overlays2014 = { 
-		"Comarca":layer_comarca_2014,
-		"Arbolado forestal":layer_forestal_2014,
-		"Cultivos forzados":layer_forzados_2014,
-		"Frutal":layer_frutal_2014,
-		"Huerta":layer_huerta_2014,
-		"Masas de agua":layer_agua_2014,		
-		"Pastizal":layer_pastizal_2014,		
-		"Salinas":layer_salinas_2014,
-		"Vegetacion escasa": layer_nula_2014
-	};
-	
-	var overlays1987 = {
-		"Comarca":layer_comarca_1987,
-		"Arbolado forestal":layer_forestal_1987,
-		"Cultivos forzados":layer_forzados_1987,
-		"Frutal":layer_frutal_1987,
-		"Huerta":layer_huerta_1987,
-		"Masas de agua":layer_agua_1987,		
-		"Pastizal":layer_pastizal_1987,		
-		"Salinas":layer_salinas_1987,
-		"Vegetacion escasa": layer_nula_1987
-	};
-	
-	//Mapas base
-	var basemap2014 = { "Grayscale": OSM2014, "Streets": streets2014 };
-		basemap1987 = { "Grayscale": OSM1987, "Streets": streets1987 };
-	
-	//Control de capas
-	L.control.layers(basemap2014, overlays2014).addTo(map2014);
-	L.control.layers(basemap1987, overlays1987).addTo(map1987);
-	
-	//Mapa de situación
-	var osm1= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });	
-		osm2= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });
-	
-	var miniMap1 = new L.Control.MiniMap(osm1, {
-		toggleDisplay: true,
-		minimized: true
-	}).addTo(map1987);
-	
-	var miniMap2 = new L.Control.MiniMap(osm2, {
-		toggleDisplay: true,
-		minimized: true
-	}).addTo(map2014);
-	
-	//Coordenadas del mouse
-	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
-	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);
-	
-	//Escala distancia abajo izquierda
-	L.control.scale().addTo(map2014);
-	L.control.scale().addTo(map1987);
-	
-	//Icono para imprimir en .pdf
-	L.easyPrint({elementsToHide: 'li'}).addTo(map2014);
-	L.easyPrint({elementsToHide: 'li'}).addTo(map1987);
-	
-	//Geoprocesos con Turf.js----------------------------------------
-	
+	var map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [layer_usos1987] });
+		
+	//Geoprocesos con Turf.js----------------------------------------	
 	// Initialise the FeatureGroup to store editable layers
 	var drawnItems1987 = new L.FeatureGroup();
-	var drawnItems2014 = new L.FeatureGroup();
+
 	map1987.addLayer(drawnItems1987);
-	map2014.addLayer(drawnItems2014);
+
 
 	// Initialise the draw control and pass it the FeatureGroup of editable layers
 	var drawControl1987 = new L.Control.Draw({
@@ -281,37 +172,8 @@
 		}
 	});
 	
-	var drawControl2014 = new L.Control.Draw({
-		draw: {
-			position: 'topleft',
-			polygon: {
-				title: 'Draw a sexy polygon!',
-				allowIntersection: false,
-				drawError: {
-					color: '#b00b00',
-					timeout: 1000
-				},
-				shapeOptions: {
-					color: '#bada55'
-				},
-				showArea: true
-			},
-			polyline: {
-				metric: false
-			},
-			circle: {
-				shapeOptions: {
-					color: '#662d91'
-				}
-			}
-		},
-		edit: {
-			featureGroup: drawnItems2014
-		}
-	});
-	
+		
 	map1987.addControl(drawControl1987);
-	map2014.addControl(drawControl2014);	
 	
 	
 	//Triggered when a new vector or marker has been created
@@ -326,21 +188,7 @@
 		drawnItems1987.addLayer(layer);
 	});
 		
-	map2014.on('draw:created', function (e) {
-		var type = e.layerType,
-			layer = e.layer;
 
-		if (type === 'marker') {
-			layer.bindPopup('A popup!');
-		}
-
-		drawnItems2014.addLayer(layer);
-	});
-	
-	//---------------------------------------------------------------
-	
-	//Warning!
-	views_type('home');
 	</script>
 </body>
 	
