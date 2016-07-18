@@ -33,7 +33,8 @@
 	<!--Draw-->
 	<link rel="stylesheet" href="css/leaflet.draw.css">
 	<script src="lib/leaflet.draw.js"></script>
-
+	<!--<script src="lib/leaflet-pip.min.js"></script>-->
+	
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
 	
@@ -182,6 +183,11 @@
 			layer = e.layer;
 
 		if (type === 'marker') {
+			//var results = leafletPip.pointInLayer([layer._latlng.lng, layer._latlng.lat], Usos_suelo_1987.features);
+			//	area= turf.area(results);
+			//	uso_suelo = "ToBeDefine";
+				
+			
 			layer.bindPopup('A popup!');
 		}
 
