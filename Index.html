@@ -34,9 +34,10 @@
 	<link rel="stylesheet" href="css/leaflet.draw.css">
 	<script src="lib/leaflet.draw.js"></script>
 	<!--<script src="lib/leaflet-pip.min.js"></script>-->
-	
+	<script src="http://cdn-geoweb.s3.amazonaws.com/terraformer/1.0.4/terraformer.min.js"></script>
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
+	<script src="source/Salinas_1987.js"></script>
 	
 	
 	<style>
@@ -130,11 +131,15 @@
 	//Añadimos mapa base como tileLayer
 	var OSM1987 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });		
 	
-	//Creo la capa
+	//Creo la capa en leaflet
 	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	
+	//Creo capa de terraformer
+	var terra_salinas1987=new Terraformer.Primitive(Salinas_1987);
+	var pruebaFeature=new Terraformer.Primitive(Salinas_1987.features[0]);
+	
 	//Constructor mapa
-	var map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [layer_usos1987] });
+	var map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [layer_usos1987], onEachFeature: onEachFeature });
 		
 	//Geoprocesos con Turf.js----------------------------------------	
 	// Initialise the FeatureGroup to store editable layers
@@ -179,8 +184,8 @@
 	
 	//Triggered when a new vector or marker has been created
 	map1987.on('draw:created', function (e) {
-		var type = e.layerType,
-			layer = e.layer;
+		var type = e.layerType,//layerType es el tipo de objeto. En este caso puede ser: poligon, rectangulo, círculo o marker.
+			layer = e.layer; //'e' es el objecto que dispara la función. En este caso es un poligono de Draw
 
 		if (type === 'marker') {
 			//var results = leafletPip.pointInLayer([layer._latlng.lng, layer._latlng.lat], Usos_suelo_1987.features);
@@ -188,7 +193,23 @@
 			//	uso_suelo = "ToBeDefine";
 				
 			
-			layer.bindPopup('A popup!');
+			//layer.bindPopup('A popup!');
+		}else if (type === 'rectangle'||type === 'polygon'){
+			var coleccion_salinas = new L.FeatureGroup();
+			var polygon_aux=new L.Polygon(layer._latlngs, layer.options ).toGeoJSON();
+			var area_salinas=0;
+			
+			for( i=0; i<Salinas_1987.features.length; i++ ){
+				var interseccion = turf.intersect(polygon_aux.geometry, Salinas_1987.features[i].geometry);
+				console.log(interseccion);
+				if(interseccion !== undefined){
+					console.log('Existe interseccion con el elemento ' + i + ' con superficie: ' + turf.area(Salinas_1987.features[i]));
+					coleccion_salinas.addLayer(interseccion);
+					area_salinas=area_salinas+turf.area(interseccion);
+				}			
+			}
+			console.log('La superficie de las salinas es '+ area_salinas+'m2');			
+			
 		}
 
 		drawnItems1987.addLayer(layer);
