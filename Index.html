@@ -32,7 +32,9 @@
 	<script src="lib/functions.js"></script>
 	<!--Draw-->
 	<link rel="stylesheet" href="css/leaflet.draw.css">
-	<script src="lib/leaflet.draw.js"></script>	
+	<script src="lib/leaflet.draw.js"></script>
+	<!--CircleYoPolygon-->
+	<script src="lib/LeafletCircleToPolygon.js"></script>
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
 	<script src="source/Salinas_1987.js"></script>
@@ -199,68 +201,39 @@
 			var str_municipio='Fuera del ámbito';			
 			
 			for( i=0; i<9; i++ ){
-				within = turf.inside(point_aux, Municipios.features[i]);
-				
+				within = turf.inside(point_aux, Municipios.features[i]);				
 				if (within){//Si within es true, entra
 					str_municipio=Municipios.features[i].properties.MUNICIPIO;
 				}
-			}	
-			
+			}				
 			for( i=0; i<Usos_suelo_1987.features.length; i++ ){
-				within = turf.inside(point_aux, Usos_suelo_1987.features[i]);
-				
+				within = turf.inside(point_aux, Usos_suelo_1987.features[i]);				
 				if (within){//Si within es true, entra
 					layer.bindPopup('Cobertura: '+ Usos_suelo_1987.features[i].properties.Usos_suelo+' <br>Coordenadas: ('+point_aux.geometry.coordinates[1]+','+point_aux.geometry.coordinates[0]+') <br>Municipio: '+str_municipio);
 				}
 			}			
 		}else if (type === 'rectangle'||type === 'polygon'){
-			var coleccion_salinas = new L.FeatureGroup();
 			var polygon_aux=new L.Polygon(layer._latlngs, layer.options ).toGeoJSON();//convertimos layer en un poligono para poder hacer turf.intersect
-			var area = [0,0,0,0,0,0,0,0];
-			var area_salinas=0;
-			
-			for( i=0; i<Usos_suelo_1987.features.length; i++ ){
-				var interseccion = turf.intersect(polygon_aux.geometry, Usos_suelo_1987.features[i].geometry);
-				if(interseccion !== undefined){			
-					
-				switch(Usos_suelo_1987.features[i].properties.Usos_suelo){
-					case "Masas de agua":
-						//coleccion_salinas.addLayer(interseccion);
-						area[0]=area[0]+turf.area(interseccion);
-						break;
-					case "Arbolado forestal":
-						area[1]=area[1]+turf.area(interseccion);
-						break;
-					case "Frutal":
-						area[2]=area[2]+turf.area(interseccion);
-						break;
-					case "Cultivos forzados":
-						area[3]=area[3]+turf.area(interseccion);
-						break;
-					case "Huerta":
-						area[4]=area[4]+turf.area(interseccion);
-						break;
-					case "Pastizal":
-						area[5]=area[5]+turf.area(interseccion);
-						break;
-					case "Terrenos con escasa o nula vegetacion":
-						area[6]=area[6]+turf.area(interseccion);
-						break;
-					case "Salinas":
-						area[7]=area[7]+turf.area(interseccion);
-						break;
-					default:
-					
-				}			
-					
-					
-					//Se muestra una ventana modal con la informacion en una grafica por area
-				}				
-			}
+			var area = area_interseca_usos(Usos_suelo_1987,polygon_aux);
 			console.log('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
 		}else if (type==='circle'){
-			//Caso en el que el type es un circulo
+			var projection = L.CRS.EPSG4326;
+			var polys=createGeodesicPolygon(layer._latlng,layer._mRadius,60, 0,projection);
+			var coords = []; // store the geometry
+			for (var i = 0; i < polys.length; i++) {
+				var geometry = [
+					parseFloat(polys[i].lat.toFixed(3)),
+					parseFloat(polys[i].lng.toFixed(3))
+				]; 
+				coords.push(geometry);
+			}
+			var polyCircle = L.polygon(coords).toGeoJSON();
+			console.log('El area del poligono resultante del circulo es: '+turf.area(polyCircle));
+			var area = area_interseca_usos(Usos_suelo_1987,polyCircle);
 			//Se crea pop up
+		}else if (type==='polyline'){
+			//Caso en el que es una polilinea
+			
 		}else{
 			//Caso en el que no haya interseccion
 			//Se muestra una alerta
