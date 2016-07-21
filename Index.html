@@ -83,6 +83,16 @@
 		.invertir-color {
 			-webkit-filter: invert(100%);
 			filter: invert(100%);
+			display: inline;
+			float: left;
+			margin-top: -21px;
+			margin-right: 15px;
+		}
+		.nav{
+			margin-top: -11px;
+		}
+		.masthead-brand {
+			margin-top: -3px;
 		}
 	</style>
 </head>
@@ -92,16 +102,16 @@
 	  <div class="site-wrapper-inner">
 		<div class="cover-container">
 		  <div class="masthead clearfix">
-			
 			<div class="inner">
-				<h4 class="masthead-brand"><img class="invertir-color" src="css/images/ujaen_oglogo.png" height="55" width="55"></img>		Cobertura del suelo en el Poniente Almeriense</h4>
-			  <nav>
-				<ul class="nav masthead-nav">
-				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
-				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
+				<img class="invertir-color" src="css/images/ujaen_oglogo.png" height="60" width="60"></img>
+				<h3 class="masthead-brand">Cobertura del suelo en el Poniente Almeriense</h3>
+				<nav>
+					<ul class="nav masthead-nav">
+					  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
+					  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
 				  
-				</ul>
-			  </nav>
+					</ul>
+				</nav>
 			</div>
 		  </div>
 		  
@@ -242,7 +252,10 @@
 		drawnItems1987.addLayer(layer);
 	});
 		
-
+	$(window).on("resize", function() {
+		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
+		map1987.invalidateSize();
+	}).trigger("resize");
 	</script>
 </body>
 	
