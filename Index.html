@@ -68,6 +68,10 @@
 		a{
 			cursor: pointer;
 		}
+		.modal-content{
+			color: #333 !important;
+			text-shadow: none !important;
+		}
 		
 		.simple_view {			
 			text-shadow:none;
@@ -130,7 +134,7 @@
 			<h4 class="modal-title">Modal title</h4>
 		  </div>
 		  <div class="modal-body">
-			<p>Prueba grafica webix.js</p>
+			<p id="info_prov">Prueba grafica webix.js</p>
 			<div id="chartDiv" style="width:600px;height:250px;margin:20px"></div>
 			<script>			
 				var dataset = [
@@ -474,7 +478,7 @@
 			var polygon_aux=new L.Polygon(layer._latlngs, layer.options ).toGeoJSON();//convertimos layer en un poligono para poder hacer turf.intersect
 			var area = area_interseca_usos(Usos_suelo_1987,polygon_aux);
 			$("#info_modal").click();
-			console.log('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
+			$("#info_prov").text('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
 		}else if (type==='circle'){
 			var projection = L.CRS.EPSG4326;
 			var polys=createGeodesicPolygon(layer._latlng,layer._mRadius,60, 0,projection);
@@ -525,7 +529,7 @@
 			var polygon_aux=new L.Polygon(layer._latlngs, layer.options ).toGeoJSON();//convertimos layer en un poligono para poder hacer turf.intersect
 			var area = area_interseca_usos(Usos_suelo_2014,polygon_aux);
 			$("#info_modal").click();
-			console.log('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
+			$("#info_prov").text('La superficie de las areas es:  <br>'+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
 		}else if (type==='circle'){
 			var projection = L.CRS.EPSG4326;
 			var polys=createGeodesicPolygon(layer._latlng,layer._mRadius,60, 0,projection);
