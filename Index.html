@@ -33,11 +33,12 @@
 	<!--Draw-->
 	<link rel="stylesheet" href="css/leaflet.draw.css">
 	<script src="lib/leaflet.draw.js"></script>
-	<!--CircleYoPolygon-->
+	<!--CircleToPolygon-->
 	<script src="lib/LeafletCircleToPolygon.js"></script>
+	<!--L.Polyline.measuredDistance.js-->
+	<script src="lib/L.Polyline.measuredDistance.js"></script>	
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
-	<script src="source/Salinas_1987.js"></script>
 	<script src="source/Municipios.js"></script>
 	
 	
@@ -159,15 +160,11 @@
 	//Constructor mapa
 	var map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM1987,layer_usos1987,layer_municipios] });
 		
-	//Geoprocesos con Turf.js----------------------------------------	
-	// Initialise the FeatureGroup to store editable layers
-	var drawnItems1987 = new L.FeatureGroup();
-
+	//Geoprocesos con Turf.js sobre map1987	
+	var drawnItems1987 = new L.FeatureGroup();// Initialise the FeatureGroup to store editable layers
 	map1987.addLayer(drawnItems1987);
-
-
-	// Initialise the draw control and pass it the FeatureGroup of editable layers
-	var drawControl1987 = new L.Control.Draw({
+	
+	var drawControl1987 = new L.Control.Draw({ // Initialise the draw control and pass it the FeatureGroup of editable layers
 		draw: {
 			position: 'topleft',
 			polygon: {
@@ -226,6 +223,7 @@
 			var polygon_aux=new L.Polygon(layer._latlngs, layer.options ).toGeoJSON();//convertimos layer en un poligono para poder hacer turf.intersect
 			var area = area_interseca_usos(Usos_suelo_1987,polygon_aux);
 			console.log('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
+			//Se crea popup
 		}else if (type==='circle'){
 			var projection = L.CRS.EPSG4326;
 			var polys=createGeodesicPolygon(layer._latlng,layer._mRadius,60, 0,projection);
@@ -240,17 +238,17 @@
 			var polyCircle = L.polygon(coords).toGeoJSON();
 			console.log('El area del poligono resultante del circulo es: '+turf.area(polyCircle));
 			var area = area_interseca_usos(Usos_suelo_1987,polyCircle);
-			//Se crea pop up
-		}else if (type==='polyline'){
-			//Caso en el que es una polilinea
-			
-		}else{
-			//Caso en el que no haya interseccion
-			//Se muestra una alerta
+			//Se crea popup
+		}else if (type==='polyline'){//En caso de que sea una polilinea se mide la distancia de ésta, no se hace interseccion con las capas			
+			var dist_polyline=layer.measuredDistance();
+			console.log('La distancia de la línea es '+dist_polyline);
+			//Se crea popup
 		}
-		
 		drawnItems1987.addLayer(layer);
+				
 	});
+	
+	
 		
 	$(window).on("resize", function() {
 		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
