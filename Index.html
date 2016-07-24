@@ -495,9 +495,11 @@
 			var area = area_interseca_usos(Usos_suelo_1987,polyCircle);
 			//Se crea pop up
 			$("#info_modal").click();
+			$("#info_prov").text('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
 		}else if (type==='polyline'){//En caso de que sea una polilinea se mide la distancia de ésta, no se hace interseccion con las capas			
 			var dist_polyline=layer.measuredDistance();
-			console.log('La distancia de la línea es '+dist_polyline);
+			$("#info_modal").click();
+			$("#info_prov").text('La distancia de la línea es '+dist_polyline);
 			//Se crea popup
 		}
 		
@@ -546,9 +548,11 @@
 			var area = area_interseca_usos(Usos_suelo_2014,polyCircle);
 			//Se crea pop up
 			$("#info_modal").click();
+			$("#info_prov").text('La superficie de las areas es '+ area[0]+'m2, '+ area[1]+'m2, '+ area[2]+'m2, '+ area[3]+'m2, '+ area[4]+'m2, '+ area[5]+'m2, '+ area[6]+'m2, '+ area[7]+'m2');
 		}else if (type==='polyline'){//En caso de que sea una polilinea se mide la distancia de ésta, no se hace interseccion con las capas			
 			var dist_polyline=layer.measuredDistance();
-			console.log('La distancia de la línea es '+dist_polyline);
+			$("#info_modal").click();
+			$("#info_prov").text('La distancia de la línea es '+dist_polyline);
 			//Se crea popup
 		}
 		
