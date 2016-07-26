@@ -142,7 +142,7 @@
 				  <li id="tab_1987"><a onclick="views_type('map1987');">Mapa 1987</a></li>
 				  <li id="tab_2014"><a onclick="views_type('map2014');">Mapa 2014</a></li>
 				  <li id="tab_doble"><a onclick="views_type('doble_view');">Mapa doble</a></li>
-				  <li id="tab_sync"><a id="etiq_sync" onclick="sync_mapas(map1987.isSynced());">Sincronizar</a></li>
+				  <li id="tab_sync"><a id="etiq_sync" onclick="syncMaps(map1987.isSynced());">Sincronizar</a></li>
 				</ul>
 			  </nav>
 			</div>
@@ -390,6 +390,7 @@
 		geoprocesos2014(e);
 	});
 	
+		
 	//Esta funcion hace responsive la página		
 	$(window).on("resize", function() {
 		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
