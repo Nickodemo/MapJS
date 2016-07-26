@@ -224,46 +224,7 @@
 		"Salinas":layer_salinas_1987,
 		"Vegetacion escasa": layer_nula_1987
 	};*/
-	//Geoprocesos con Turf.js----------------------------------------	
-	// Initialise the FeatureGroup to store editable layers
-	var drawnItems2014 = new L.FeatureGroup();
-	map2014.addLayer(drawnItems2014);
-
-	var drawnItems1987 = new L.FeatureGroup();
-	map1987.addLayer(drawnItems1987);
-
-
-	// Initialise the draw control and pass it the FeatureGroup of editable layers
-	var drawControl1987 = new L.Control.Draw({
-		draw: {
-			position: 'topleft',
-			polygon: {
-				title: 'Draw a sexy polygon!',
-				allowIntersection: false,
-				drawError: {
-					color: '#b00b00',
-					timeout: 1000
-				},
-				shapeOptions: {
-					color: '#bada55'
-				},
-				showArea: true
-			},
-			polyline: {
-				metric: false
-			},
-			circle: {
-				shapeOptions: {
-					color: '#662d91'
-				}
-			}
-		},
-		edit: {
-			featureGroup: drawnItems1987
-		}
-	});
-
-
+	
 	//Mapas base
 	var basemap2014 = { "Grayscale": OSM2014, "Streets": streets2014 };
 		basemap1987 = { "Grayscale": OSM1987, "Streets": streets1987 };
@@ -320,12 +281,12 @@
 	}
 	
 	//Geoprocesos con Turf.js
-	// Initialise the FeatureGroup to store editable layers
+	// Initialise the FeatureGroup to store editable layers 1987
 	var drawnItems1987 = new L.FeatureGroup();
 
 	map1987.addLayer(drawnItems1987);
 	
-	// Initialise the draw control and pass it the FeatureGroup of editable layers	
+	// Initialise the draw control and pass it the FeatureGroup of editable layers 1987
 	var drawControl1987 = new L.Control.Draw({
 		draw: {
 			position: 'topleft',
@@ -354,6 +315,15 @@
 			featureGroup: drawnItems1987
 		}
 	});
+	
+	// Initialise the FeatureGroup to store editable layers 2014
+	var drawnItems2014 = new L.FeatureGroup();
+
+	map2014.addLayer(drawnItems2014);
+	
+	// Initialise the draw control and pass it the FeatureGroup of editable layers 2014
+	
+	
 	var drawControl2014 = new L.Control.Draw({
 		draw: {
 			position: 'topleft',
@@ -379,7 +349,7 @@
 			}
 		},
 		edit: {
-			featureGroup: drawnItems1987
+			featureGroup: drawnItems2014
 		}
 	});
 	map1987.addControl(drawControl1987);
