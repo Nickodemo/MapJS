@@ -314,12 +314,12 @@
 	L.easyPrint({elementsToHide: 'li'}).addTo(map1987);
 	
 	//Geoprocesos con Turf.js
-	// Initialise the FeatureGroup to store editable layers
+	// Initialise the FeatureGroup to store editable layers 1987
 	var drawnItems1987 = new L.FeatureGroup();
 
 	map1987.addLayer(drawnItems1987);
 	
-	// Initialise the draw control and pass it the FeatureGroup of editable layers	
+	// Initialise the draw control and pass it the FeatureGroup of editable layers 1987
 	var drawControl1987 = new L.Control.Draw({
 		draw: {
 			position: 'topleft',
@@ -348,6 +348,15 @@
 			featureGroup: drawnItems1987
 		}
 	});
+	
+	// Initialise the FeatureGroup to store editable layers 2014
+	var drawnItems2014 = new L.FeatureGroup();
+
+	map2014.addLayer(drawnItems2014);
+	
+	// Initialise the draw control and pass it the FeatureGroup of editable layers 2014
+	
+	
 	var drawControl2014 = new L.Control.Draw({
 		draw: {
 			position: 'topleft',
@@ -373,7 +382,7 @@
 			}
 		},
 		edit: {
-			featureGroup: drawnItems1987
+			featureGroup: drawnItems2014
 		}
 	});
 	map1987.addControl(drawControl1987);
