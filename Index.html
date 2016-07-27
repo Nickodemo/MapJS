@@ -135,7 +135,7 @@
 		  <div class="masthead clearfix">
 			<div class="inner">
 				<img class="invertir-color" src="css/images/ujaen_oglogo.png" height="60" width="60"></img>
-				<h3 class="masthead-brand">Usos del suelo en el Poniente Almeriense</h3>
+				<h3 class="masthead-brand">Ocupacion del suelo en el Poniente Almeriense</h3>
 			  <nav>
 				<ul class="nav masthead-nav">
 				  <li id="tab_home" class="active"><a onclick="views_type('home');">Home</a></li>				  
@@ -235,8 +235,8 @@
 		layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea});
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
-		map1987= L.map('map1987', { center: [36.76,-2.67], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
+	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
+		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
 	
 	//Geoprocesos con Turf.js----------------------------------------	
 	// Initialise the FeatureGroup to store editable layers
