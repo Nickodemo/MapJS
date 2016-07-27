@@ -238,46 +238,6 @@
 	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
 		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
 	
-	//Geoprocesos con Turf.js----------------------------------------	
-	// Initialise the FeatureGroup to store editable layers
-	var drawnItems2014 = new L.FeatureGroup();
-	map2014.addLayer(drawnItems2014);
-
-	var drawnItems1987 = new L.FeatureGroup();
-	map1987.addLayer(drawnItems1987);
-
-
-	// Initialise the draw control and pass it the FeatureGroup of editable layers
-	var drawControl1987 = new L.Control.Draw({
-		draw: {
-			position: 'topleft',
-			polygon: {
-				title: 'Draw a sexy polygon!',
-				allowIntersection: false,
-				drawError: {
-					color: '#b00b00',
-					timeout: 1000
-				},
-				shapeOptions: {
-					color: '#bada55'
-				},
-				showArea: true
-			},
-			polyline: {
-				metric: false
-			},
-			circle: {
-				shapeOptions: {
-					color: '#662d91'
-				}
-			}
-		},
-		edit: {
-			featureGroup: drawnItems1987
-		}
-	});
-
-
 	//Mapas base
 	var basemap2014 = { "Grayscale": OSM2014, "Streets": streets2014 };
 		basemap1987 = { "Grayscale": OSM1987, "Streets": streets1987 };
@@ -314,12 +274,8 @@
 	L.easyPrint({elementsToHide: 'li'}).addTo(map1987);
 	
 	//Geoprocesos con Turf.js
-	// Initialise the FeatureGroup to store editable layers 1987
-	var drawnItems1987 = new L.FeatureGroup();
-
-	map1987.addLayer(drawnItems1987);
-	
-	// Initialise the draw control and pass it the FeatureGroup of editable layers 1987
+	var drawnItems1987 = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
+	map1987.addLayer(drawnItems1987);		
 	var drawControl1987 = new L.Control.Draw({ //Se inicializa el draw control y se le pasa las capas editables creadas anteriormente sobre el mapa1987
 		draw: {
 			position: 'topleft',
