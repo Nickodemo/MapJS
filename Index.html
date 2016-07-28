@@ -46,7 +46,10 @@
 	<script src="source/Usos_suelo_2014.js"></script>
 	
 	<style>
-		
+		.leaflet-control-minimap-toggle-display-bottomright {
+			top: -4px;
+			left: -4px;
+		}
 		a{
 			cursor: pointer;
 		}
@@ -252,12 +255,14 @@
 	
 	var miniMap1 = new L.Control.MiniMap(osm1, {
 		toggleDisplay: true,
-		minimized: true
+		minimized: true,
+		width: 164
 	}).addTo(map1987);
 	
 	var miniMap2 = new L.Control.MiniMap(osm2, {
 		toggleDisplay: true,
-		minimized: true
+		minimized: true,
+		width: 164
 	}).addTo(map2014);
 	
 	//Coordenadas del mouse
