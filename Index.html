@@ -104,6 +104,16 @@
 		.masthead-brand {
 			margin-top: -3px;
 		}
+		p.label_izq {
+			float: left;
+			font-size: 20px;
+			margin: 0px;
+		}
+		p.label_der {
+			float: right;
+			font-size: 20px;
+			margin: 0px;
+		}
 	</style>
 </head>
 
@@ -157,6 +167,8 @@
 			<div id= 'doble_view' class="inner cover">			
 				<div id='map1987' class='mapa_sync left_map1987'></div>
 				<div id='map2014' class='mapa_sync right_map2014'></div>
+				<p class="label_izq">Mapa 1987</p>
+				<p class="label_der">Mapa 2014</p>
 			</div>
 			  
 		  <div class="mastfoot">
@@ -359,6 +371,10 @@
 	$(window).on("resize", function() {
 		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
 		$("#map2014").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
+		if($("#tab_doble").attr("class")==="active"){
+			$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height() - $(".label_izq").height());
+			$("#map2014").height($(window).height() - $(".mastfoot").height() - $(".masthead").height() - $(".label_der").height());
+		}
 		map1987.invalidateSize();
 		map2014.invalidateSize();
 	}).trigger("resize");
