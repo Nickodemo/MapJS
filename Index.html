@@ -125,7 +125,7 @@
 		<div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title">Modal title</h4>
+			<h4 class="modal-title">Resultado de la selección</h4>
 		  </div>
 		  <div class="modal-body">
 			<p id="info_prov">Prueba grafica webix.js</p>
@@ -357,16 +357,21 @@
 	map2014.addControl(drawControl2014);
 	
 	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js 
-		geoprocesos1987(e);
+		if (map1987.isSynced()) {
+			geoprocesos1987(e);
+		}else{
+			geoprocesos1987(e);
+		}
 	});	
 	map2014.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 2014 con Turf.js
-		geoprocesos2014(e);
+		if (map2014.isSynced()) {
+			geoprocesos2014(e);
+		}else{
+			geoprocesos2014(e);
+		}
+		
 	});
 	
-	map1987.on('draw:deleted', function (e) { //Esta función elimina el poligono que se ha dibujado al sincronizar las vistas
-		map2014.removed;
-	});
-			
 	//Esta funcion hace responsive la página		
 	$(window).on("resize", function() {
 		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
