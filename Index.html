@@ -292,7 +292,9 @@
 	
 	//Geoprocesos con Turf.js
 	var drawnItems1987 = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
+	var drawnItems1987_edit = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
 	map1987.addLayer(drawnItems1987);		
+	map1987.addLayer(drawnItems1987_edit);		
 	var drawControl1987 = new L.Control.Draw({ //Se inicializa el draw control y se le pasa las capas editables creadas anteriormente sobre el mapa1987
 		draw: {
 			position: 'topleft',
@@ -323,7 +325,10 @@
 	});
 		
 	var drawnItems2014 = new L.FeatureGroup(); //Se inicializa FeatureGroup para almacenar las capas editables de los poligonos y marcadores dibujados sobre el mapa2014
-	map2014.addLayer(drawnItems2014);		
+	var drawnItems2014_edit = new L.FeatureGroup(); //Se inicializa FeatureGroup para almacenar las capas editables de los poligonos y marcadores dibujados sobre el mapa2014
+	map2014.addLayer(drawnItems2014);
+	map2014.addLayer(drawnItems2014_edit);
+	
 	var drawControl2014 = new L.Control.Draw({ //Se inicializa el draw control y se le pasa las capas editables creadas anteriormente sobre el mapa2014
 		draw: {
 			position: 'topleft',
@@ -370,6 +375,24 @@
 			geoprocesos2014(e);
 		}
 		
+	});
+	
+	map1987.on('draw:deleted', function (e) {
+		var layers = e.layers;
+		
+		layers.eachLayer(function (layer) {
+			//do whatever you want, most likely save back to db
+			drawnItems2014_edit.removeLayer(layer._leaflet_id - 1);
+		});
+	});
+	
+	map2014.on('draw:deleted', function (e) {
+		var layers = e.layers;
+		
+		layers.eachLayer(function (layer) {
+			//do whatever you want, most likely save back to db
+			drawnItems1987_edit.removeLayer(layer._leaflet_id - 1);
+		});
 	});
 	
 	//Esta funcion hace responsive la página		
