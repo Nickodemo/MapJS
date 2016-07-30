@@ -114,11 +114,13 @@
 			float: left;
 			font-size: 20px;
 			margin: 0px;
+			display: none;
 		}
 		p.label_der {
 			float: right;
 			font-size: 20px;
 			margin: 0px;
+			display: none;
 		}
 		.legend {
 			text-align: left;
@@ -442,14 +444,7 @@
 			
 	//Esta funcion hace responsive la página		
 	$(window).on("resize", function() {
-		$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
-		$("#map2014").height($(window).height() - $(".mastfoot").height() - $(".masthead").height());
-		if($("#tab_doble").attr("class")==="active"){
-			$("#map1987").height($(window).height() - $(".mastfoot").height() - $(".masthead").height() - $(".label_izq").height());
-			$("#map2014").height($(window).height() - $(".mastfoot").height() - $(".masthead").height() - $(".label_der").height());
-		}
-		map1987.invalidateSize();
-		map2014.invalidateSize();
+		resetViews();
 	}).trigger("resize");
 	
 	//WorkAround!
