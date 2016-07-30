@@ -157,7 +157,7 @@
 		  <div class="modal-body">
 			<p id="info_prov">Prueba grafica webix.js</p>
 			<canvas id="myChart" width="400" height="400"></canvas>
-			
+			<canvas id="myRadarChart" width="400" height="400"></canvas>
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -212,49 +212,93 @@
 	<script src="./lib/bootstrap.min.js"></script>	
 	<script>
 		$('#exampleModal').on('shown.bs.modal', function (event) {
-			resetCanvas();
+			resetCanvas(map1987.isSynced());
 			var button = $(event.relatedTarget);
 			var modal = $(this);
-
-			// Chart initialisieren
-			var ctx = $("#myChart");
-			var myChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
-					datasets: [{
-						label: 'km2 superficie por cobertura',
-						data: char_data,
-						backgroundColor: [
-							'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 159, 64, 0.2)'
-						],
-						borderColor: [
-							'rgba(255,99,132,1)',
-							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 159, 64, 1)'
-						],
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero:true
-							}
-						}]
+			var char_data_sync = {
+				labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+				datasets: [
+					{
+						label: "Mapa 1987",
+						backgroundColor: "rgba(179,181,198,0.2)",
+						borderColor: "rgba(179,181,198,1)",
+						pointBackgroundColor: "rgba(179,181,198,1)",
+						pointBorderColor: "#fff",
+						pointHoverBackgroundColor: "#fff",
+						pointHoverBorderColor: "rgba(179,181,198,1)",
+						data: char_data
+					},
+					{
+						label: "Mapa 2014",
+						backgroundColor: "rgba(255,99,132,0.2)",
+						borderColor: "rgba(255,99,132,1)",
+						pointBackgroundColor: "rgba(255,99,132,1)",
+						pointBorderColor: "#fff",
+						pointHoverBackgroundColor: "#fff",
+						pointHoverBorderColor: "rgba(255,99,132,1)",
+						data: char_data2014
 					}
-				}
-			});
+				]
+			};
 			
+			// Chart initialisieren
+			if (map1987.isSynced()) {	//Si el map1987 está sincronizado	
+				var ctx = $("#myRadarChart");
+				var myRadarChart = new Chart(ctx, {
+					type: 'radar',
+					data: char_data_sync,
+					options: {
+						scale: {
+							reverse: true,
+							ticks: {
+								beginAtZero: true
+							}
+						}
+					}
+				});
+			}else{
+				var data_aux = char_data;
+				if(mapEvent == 2014){
+					data_aux = char_data2014;
+				}
+				var ctx = $("#myChart");
+				var myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+						datasets: [{
+							label: 'km2 superficie por cobertura',
+							data: data_aux,
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+								'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero:true
+								}
+							}]
+						}
+					}
+				});
+			}			
 		});
 	</script>
 	<script>
@@ -263,7 +307,8 @@
 	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
 		char_data = [],
-		char_data2 = [];
+		char_data2014 = [],
+		mapEvent = 0;
 		
 	//Añadimos mapa base como tileLayer
 	var OSM1987 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
@@ -408,20 +453,13 @@
 	map1987.addControl(drawControl1987);
 	map2014.addControl(drawControl2014);
 	
-	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js 
-		if (map1987.isSynced()) {
-			geoprocesos1987(e);
-		}else{
-			geoprocesos1987(e);
-		}
+	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js
+		mapEvent = 1987;
+		geoprocesos1987(e);
 	});	
 	map2014.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 2014 con Turf.js
-		if (map2014.isSynced()) {
-			geoprocesos2014(e);
-		}else{
-			geoprocesos2014(e);
-		}
-		
+		mapEvent = 2014;
+		geoprocesos2014(e);
 	});
 	
 	map1987.on('draw:deleted', function (e) {
