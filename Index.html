@@ -262,6 +262,7 @@
 		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
 		char_data = [],
 		char_data2 = [];
+		
 	//Añadimos mapa base como tileLayer
 	var OSM1987 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
 		OSM2014 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
@@ -281,10 +282,14 @@
 	//Mapas base
 	var basemap2014 = { "Grayscale": OSM2014, "Streets": streets2014 };
 		basemap1987 = { "Grayscale": OSM1987, "Streets": streets1987 };
-	
+
+	//Capas
+	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987};
+		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014};
+		
 	//Control de capas
-	L.control.layers(basemap2014).addTo(map2014);//falta meter las capas del uso del suelo para activar/desactivar
-	L.control.layers(basemap1987).addTo(map1987);
+	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);//falta meter las capas del uso del suelo para activar/desactivar
+	L.control.layers(basemap1987,overlayMaps1987).addTo(map1987);
 	
 	//Mapa de situación
 	var osm1= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });	
