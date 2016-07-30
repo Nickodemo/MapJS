@@ -150,7 +150,7 @@
 		<div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title">Modal title</h4>
+			<h4 class="modal-title">Resultado de la selección</h4>
 		  </div>
 		  <div class="modal-body">
 			<p id="info_prov">Prueba grafica webix.js</p>
@@ -332,7 +332,9 @@
 		
 	//Geoprocesos con Turf.js
 	var drawnItems1987 = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
+	var drawnItems1987_edit = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
 	map1987.addLayer(drawnItems1987);		
+	map1987.addLayer(drawnItems1987_edit);		
 	var drawControl1987 = new L.Control.Draw({ //Se inicializa el draw control y se le pasa las capas editables creadas anteriormente sobre el mapa1987
 		draw: {
 			position: 'topleft',
@@ -363,7 +365,10 @@
 	});
 		
 	var drawnItems2014 = new L.FeatureGroup(); //Se inicializa FeatureGroup para almacenar las capas editables de los poligonos y marcadores dibujados sobre el mapa2014
-	map2014.addLayer(drawnItems2014);		
+	var drawnItems2014_edit = new L.FeatureGroup(); //Se inicializa FeatureGroup para almacenar las capas editables de los poligonos y marcadores dibujados sobre el mapa2014
+	map2014.addLayer(drawnItems2014);
+	map2014.addLayer(drawnItems2014_edit);
+	
 	var drawControl2014 = new L.Control.Draw({ //Se inicializa el draw control y se le pasa las capas editables creadas anteriormente sobre el mapa2014
 		draw: {
 			position: 'topleft',
@@ -397,15 +402,39 @@
 	map2014.addControl(drawControl2014);
 	
 	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js 
-		geoprocesos1987(e);
+		if (map1987.isSynced()) {
+			geoprocesos1987(e);
+		}else{
+			geoprocesos1987(e);
+		}
 	});	
 	map2014.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 2014 con Turf.js
-		geoprocesos2014(e);
+		if (map2014.isSynced()) {
+			geoprocesos2014(e);
+		}else{
+			geoprocesos2014(e);
+		}
+		
 	});
 	
-	map1987.on('draw:deleted', function (e) { //Esta función elimina el poligono que se ha dibujado al sincronizar las vistas
-		map2014.removed;
+	map1987.on('draw:deleted', function (e) {
+		var layers = e.layers;
+		if (map1987.isSynced()) {
+			layers.eachLayer(function (layer) {
+				drawnItems2014_edit.removeLayer(layer._leaflet_id - 1);
+			});
+		}
 	});
+	
+	map2014.on('draw:deleted', function (e) {
+		var layers = e.layers;
+		if (map2014.isSynced()) {
+			layers.eachLayer(function (layer) {
+				drawnItems1987_edit.removeLayer(layer._leaflet_id - 1);
+			});
+		}
+	});
+	
 	
 	//Icono para imprimir en .pdf
 	L.easyPrint({elementsToHide: 'li'}).addTo(map2014);
