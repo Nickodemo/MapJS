@@ -343,8 +343,8 @@
 		osm2= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });
 	
 	//Coordenadas del mouse
-	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
-	L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);	
+	var mouse_control = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
+	var mouse_control2014 = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);	
 	
 	var miniMap1 = new L.Control.MiniMap(osm1, {
 		toggleDisplay: true,
