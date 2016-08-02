@@ -480,20 +480,20 @@
 	
 	map1987.on('draw:deleted', function (e) {
 		var layers = e.layers;
-		if (map1987.isSynced()) {
+		
 			layers.eachLayer(function (layer) {
 				drawnItems2014_edit.removeLayer(layer._leaflet_id - 1);
 			});
-		}
+		
 	});
 	
 	map2014.on('draw:deleted', function (e) {
 		var layers = e.layers;
-		if (map2014.isSynced()) {
+		
 			layers.eachLayer(function (layer) {
 				drawnItems1987_edit.removeLayer(layer._leaflet_id - 1);
 			});
-		}
+		
 	});
 	
 	//Esta funcion se invoca despues de mostrar el popoup, sirve solamente para rellenar la graficas en PostRender
