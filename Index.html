@@ -142,7 +142,16 @@
 			background: rgba(255,255,255,0.8);
 			box-shadow: 0 0 15px rgba(0,0,0,0.2);
 			border-radius: 5px;
-		}		
+		}	
+		.polig{ 
+			width:17px; 
+			height:17px; 		
+			color:#EEEEEE;
+			margin-left: 2px;
+		}
+		.elems_popup{
+			margin-top: 4px;
+		}
 	</style>
 </head>
 
@@ -159,7 +168,7 @@
 		  <div class="modal-body">
 			<p id="info_prov">Prueba grafica webix.js</p>
 			<canvas id="myChart" width="400" height="400"></canvas>
-			<canvas id="myRadarChart" width="400" height="400"></canvas>
+			<canvas id="myRadarChart" width="400" height="400"></canvas>			
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -461,10 +470,12 @@
 	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js
 		mapEvent = 1987;
 		geoprocesos1987(e);
+		mapEvent = 0;
 	});	
 	map2014.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 2014 con Turf.js
 		mapEvent = 2014;
 		geoprocesos2014(e);
+		mapEvent = 0;
 	});
 	
 	map1987.on('draw:deleted', function (e) {
@@ -485,103 +496,119 @@
 		}
 	});
 	
-	//Esta funcion se invoca despues de poner el popoup, sirve solamente para rellenar la graficas en PostRender
+	//Esta funcion se invoca despues de mostrar el popoup, sirve solamente para rellenar la graficas en PostRender
 	map1987.on('popupopen', function (e) {
-
-		var ctx = $("#myPopupChart1987");
-		var data = {
-			labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
-			datasets: [
-				{
-					label: "",
-					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
-					],
-					borderColor: [
-						'rgba(255,99,132,1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1,
-					data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
-				}
-			]
-		};
-		var mybarChart = new Chart(ctx,{
-			type: 'bar',
-			data: data,
-			options: {
-				legend: { display: false },
-				scales: {
-						xAxes: [{
-								display: false
-						}],
-						yAxes: [{
-								display: false
-						}]
+		if(e.popup._source.feature){
+			console.log("no has pintado un marker en el mapa1987");
+			var ctx = $("#myPopupChart1987");
+			var data = {
+				labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+				datasets: [
+					{
+						label: "",
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1,
+						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
+					}
+				]
+			};
+			var mybarChart = new Chart(ctx,{
+				type: 'bar',
+				data: data,
+				options: {
+					legend: { display: false },
+					scales: {
+							xAxes: [{
+									display: false
+							}],
+							yAxes: [{
+									display: false
+							}]
+						}
 					}
 				}
-			}
-		);
-		$('#myPopupChart1987').width(191);
-		$('#myPopupChart1987').height(68);
+			);
+			$('#myPopupChart1987').width(191);
+			$('#myPopupChart1987').height(68);
+		}else{
+			console.log("has pintado un marker en el mapa1987");
+			$('.leaflet-popup-content').width(160);
+			$('#map1987 .polig').attr( "style", function( index ) {
+			  return "background:"+getColor($("#uso_popup_1987").text())+";";
+			});
+		}
 	});
 	
 	map2014.on('popupopen', function (e) {
-
-		var ctx = $("#myPopupChart2014");
-		var data = {
-			labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
-			datasets: [
-				{
-					label: "",
-					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)',
-						'rgba(75, 192, 192, 0.2)',
-						'rgba(153, 102, 255, 0.2)',
-						'rgba(255, 159, 64, 0.2)'
-					],
-					borderColor: [
-						'rgba(255,99,132,1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-						'rgba(75, 192, 192, 1)',
-						'rgba(153, 102, 255, 1)',
-						'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1,
-					data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
-				}
-			]
-		};
-		var mybarChart = new Chart(ctx,{
-			type: 'bar',
-			data: data,
-			options: {
-				legend: { display: false },
-				scales: {
-						xAxes: [{
-								display: false
-						}],
-						yAxes: [{
-								display: false
-						}]
+		if(e.popup._source.feature){
+		console.log("no has pintado un marker en el mapa2014");
+			var ctx = $("#myPopupChart2014");
+			var data = {
+				labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+				datasets: [
+					{
+						label: "",
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1,
+						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
+					}
+				]
+			};
+			var mybarChart = new Chart(ctx,{
+				type: 'bar',
+				data: data,
+				options: {
+					legend: { display: false },
+					scales: {
+							xAxes: [{
+									display: false
+							}],
+							yAxes: [{
+									display: false
+							}]
+						}
 					}
 				}
-			}
-		);
-		$('#myPopupChart2014').width(191);
-		$('#myPopupChart2014').height(68);
+			);
+			$('#myPopupChart2014').width(191);
+			$('#myPopupChart2014').height(68);
+		}else{
+			console.log("has pintado un marker en el mapa2014");
+			$('.leaflet-popup-content').width(160);
+			$('#map2014 .polig').attr( "style", function( index ) {
+			  return "background:"+getColor($("#uso_popup_2014").text())+";";
+			});
+		}		
 	});
 	
 	//Icono para imprimir en .pdf
