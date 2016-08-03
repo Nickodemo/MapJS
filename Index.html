@@ -5,6 +5,9 @@
 	<title>Map Template for land use</title>
 	
     <link rel="icon" href="res/maps.ico">
+	<script src="./lib/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+	<script src="./lib/bootstrap.min.js"></script>
 	<!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">    
     <!-- Custom styles for this template -->
@@ -46,6 +49,7 @@
 	<script src="source/Usos_suelo_2014.js"></script>
 	<!--Info popup-->
 	<script src="source/info_municipios.js"></script>
+	
 	
 	<style>
 		.leaflet-bottom .leaflet-control-scale {
@@ -169,11 +173,7 @@
 			<p id="info_prov">Prueba grafica webix.js</p>
 			<canvas id="myChart" width="400" height="400"></canvas>
 			<canvas id="myRadarChart" width="400" height="400"></canvas>			
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
-		  </div>
+		  </div>		  
 		</div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
@@ -211,113 +211,109 @@
 			  
 		  <div class="mastfoot">
 			<div class="inner">
-			  <p>Map Template for <a href="http://coello.ujaen.es/">UJA Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a></p>
+			  <p><a href="http://coello.ujaen.es/">UJA Project</a>, by <a href="https://github.com/virulilla">Elena Salido 2016</a></p>
 			</div>
 		  </div>
 		</div>
 	  </div>
 	</div>
-
-	<script src="./lib/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-	<script src="./lib/bootstrap.min.js"></script>	
-	<script>
-		$('#exampleModal').on('shown.bs.modal', function (event) {
-			resetCanvas(map1987.isSynced());
-			var button = $(event.relatedTarget);
-			var modal = $(this);
-			var char_data_sync = {
-				labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
-				datasets: [
-					{
-						label: "Mapa 1987",
-						backgroundColor: "rgba(179,181,198,0.2)",
-						borderColor: "rgba(179,181,198,1)",
-						pointBackgroundColor: "rgba(179,181,198,1)",
-						pointBorderColor: "#fff",
-						pointHoverBackgroundColor: "#fff",
-						pointHoverBorderColor: "rgba(179,181,198,1)",
-						data: char_data
-					},
-					{
-						label: "Mapa 2014",
-						backgroundColor: "rgba(255,99,132,0.2)",
-						borderColor: "rgba(255,99,132,1)",
-						pointBackgroundColor: "rgba(255,99,132,1)",
-						pointBorderColor: "#fff",
-						pointHoverBackgroundColor: "#fff",
-						pointHoverBorderColor: "rgba(255,99,132,1)",
-						data: char_data2014
-					}
-				]
-			};
-			
-			// Chart initialisieren
-			if (map1987.isSynced()) {	//Si el map1987 está sincronizado	
-				var ctx = $("#myRadarChart");
-				var myRadarChart = new Chart(ctx, {
-					type: 'radar',
-					data: char_data_sync,
-					options: {
-						scale: {
-							reverse: true,
-							ticks: {
-								beginAtZero: true
-							}
-						}
-					}
-				});
-			}else{
-				var data_aux = char_data;
-				if(mapEvent == 2014){
-					data_aux = char_data2014;
-				}
-				var ctx = $("#myChart");
-				var myChart = new Chart(ctx, {
-					type: 'bar',
-					data: {
-						labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
-						datasets: [{
-							label: 'km2 superficie por cobertura',
-							data: data_aux,
-							backgroundColor: [
-								'rgba(255, 99, 132, 0.2)',
-								'rgba(54, 162, 235, 0.2)',
-								'rgba(255, 206, 86, 0.2)',
-								'rgba(75, 192, 192, 0.2)',
-								'rgba(153, 102, 255, 0.2)',
-								'rgba(255, 159, 64, 0.2)'
-							],
-							borderColor: [
-								'rgba(255,99,132,1)',
-								'rgba(54, 162, 235, 1)',
-								'rgba(255, 206, 86, 1)',
-								'rgba(75, 192, 192, 1)',
-								'rgba(153, 102, 255, 1)',
-								'rgba(255, 159, 64, 1)'
-							],
-							borderWidth: 1
-						}]
-					},
-					options: {
-						scales: {
-							yAxes: [{
-								ticks: {
-									beginAtZero:true
-								}
-							}]
-						}
-					}
-				});
-			}			
-		});
-
-	$("#info_modal").hide();
 	
+	<script>
+		
 	//Creamos variables globales
 	var char_data = [],
 		char_data2014 = [],
-		mapEvent = 0;
+		mapEvent = 0,
+		colordata=['rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)'
+				];
+		
+	$('#exampleModal').on('shown.bs.modal', function (event) {
+		resetCanvas(map1987.isSynced());
+		var button = $(event.relatedTarget);
+		var modal = $(this);
+		var char_data_sync = {
+			labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+			datasets: [
+				{
+					label: "Mapa 1987",
+					backgroundColor: "rgba(179,181,198,0.2)",
+					borderColor: "rgba(179,181,198,1)",
+					pointBackgroundColor: "rgba(179,181,198,1)",
+					pointBorderColor: "#fff",
+					pointHoverBackgroundColor: "#fff",
+					pointHoverBorderColor: "rgba(179,181,198,1)",
+					data: char_data
+				},
+				{
+					label: "Mapa 2014",
+					backgroundColor: "rgba(255,99,132,0.2)",
+					borderColor: "rgba(255,99,132,1)",
+					pointBackgroundColor: "rgba(255,99,132,1)",
+					pointBorderColor: "#fff",
+					pointHoverBackgroundColor: "#fff",
+					pointHoverBorderColor: "rgba(255,99,132,1)",
+					data: char_data2014
+				}
+			]
+		};
+		
+		// Chart initialisieren
+		if (map1987.isSynced()) {	//Si el map1987 está sincronizado	
+			var ctx = $("#myRadarChart");
+			var myRadarChart = new Chart(ctx, {
+				type: 'bar',
+				data: char_data_sync,
+				options: {
+					scale: {
+						responsive:true,
+						legend: { display: false },
+						reverse: true,
+						ticks: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+		}else{
+			var data_aux = char_data;
+			if(mapEvent == 2014){
+				data_aux = char_data2014;
+			}
+			var ctx = $("#myChart");
+			var myChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
+					datasets: [{
+						label: 'km2 superficie por cobertura',
+						data: data_aux,
+						backgroundColor: colordata,
+						borderColor: colordata,
+						borderWidth: 1
+					}]
+				},
+				options: {
+					responsive:true,
+					legend: { display: false },
+					scale: {
+						reverse: true,
+						ticks: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+		}			
+	});
+			
+	$("#info_modal").hide();
 	
 	//Creamos variables que almacenan los mapas base
 	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org"> OpenStreetMap</a> contributors, ' + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="http://mapbox.com">Mapbox</a>',
