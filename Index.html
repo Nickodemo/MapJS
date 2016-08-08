@@ -168,11 +168,12 @@
 		  <div class="modal-body">
 			<p id="info_prov">Prueba grafica webix.js</p>
 			<canvas id="myChart" width="400" height="400"></canvas>
-			<canvas id="myRadarChart" width="400" height="400"></canvas>			
+			<canvas id="myRadarChart" width="400" height="400"></canvas>
+			<img src="" id="laimagen" style="display:none;"/>			
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			<button type="button" onclick="export_chart();" class="btn btn-primary">Exportar</button>
 		  </div>
 		</div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -256,7 +257,7 @@
 			if (map1987.isSynced()) {	//Si el map1987 está sincronizado	
 				var ctx = $("#myRadarChart");
 				var myRadarChart = new Chart(ctx, {
-					type: 'radar',
+					type: 'bar',
 					data: char_data_sync,
 					options: {
 						scale: {
@@ -300,6 +301,7 @@
 						}]
 					},
 					options: {
+						legend: { display: false},
 						scales: {
 							yAxes: [{
 								ticks: {
