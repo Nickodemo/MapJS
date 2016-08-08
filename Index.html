@@ -152,6 +152,11 @@
 		.elems_popup{
 			margin-top: 4px;
 		}
+		.info_marginal {
+			text-align: left;
+			line-height: 18px;
+			color: 	#FFFFFF;
+		}
 	</style>
 </head>
 
@@ -358,10 +363,32 @@
 	var osm1= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });	
 		osm2= L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', minZoom: 5, maxZoom: 10 });
 	
+	//Info marginal NSSDA
+	var info_marginal1987 = L.control({position: 'bottomright'}),
+		info_marginal2014 = L.control({position: 'bottomright'});
+
+	info_marginal1987.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info_marginal');
+		div.innerHTML += '"Se ha verificado una exactitud horizontal de 22,8 metros al 95% de nivel de confianza"';
+
+		return div;
+	};
+	
+	info_marginal2014.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info_marginal');
+		div.innerHTML += '"Se ha verificado una exactitud horizontal de 24,9 metros al 95% de nivel de confianza"';
+
+		return div;
+	};
+
+	info_marginal1987.addTo(map1987);
+	info_marginal2014.addTo(map2014);
+	
 	//Coordenadas del mouse
 	var mouse_control = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 	var mouse_control2014 = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);	
 	
+	//Minimapa
 	var miniMap1 = new L.Control.MiniMap(osm1, {
 		toggleDisplay: true,
 		minimized: true,
@@ -397,6 +424,9 @@
 
 	legend.addTo(map1987);
 	legend.addTo(map2014);
+		
+	
+	
 		
 	//Geoprocesos con Turf.js
 	var drawnItems1987 = new L.FeatureGroup(); // Se crean las capas editables (FeatureGroup) en las que se almacenan los poligonos que se han dibujado en el mapa 1987
