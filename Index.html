@@ -256,7 +256,7 @@
 				labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
 				datasets: [
 					{
-						label: "Mapa 1987",
+						label: "km² Mapa 1987",
 						backgroundColor: "rgba(179,181,198,0.2)",
 						borderColor: "rgba(179,181,198,1)",
 						pointBackgroundColor: "rgba(179,181,198,1)",
@@ -266,7 +266,7 @@
 						data: char_data
 					},
 					{
-						label: "Mapa 2014",
+						label: "km² Mapa 2014",
 						backgroundColor: "rgba(255,99,132,0.2)",
 						borderColor: "rgba(255,99,132,1)",
 						pointBackgroundColor: "rgba(255,99,132,1)",
@@ -285,11 +285,16 @@
 					type: 'bar',
 					data: char_data_sync,
 					options: {
-						scale: {
-							reverse: true,
-							ticks: {
-								beginAtZero: true
-							}
+						scales: {
+							yAxes: [{
+								scaleLabel:{
+									display:true,
+									labelString:'(km²)'
+								},
+								ticks: {
+									beginAtZero:true								
+								}
+							}]
 						}
 					}
 				});
@@ -304,7 +309,7 @@
 					data: {
 						labels: ["Masas de agua", "Arbolado forestal", "Frutal", "Cultivos forzados", "Huerta", "Pastizal","Vegetacion escasa","Salinas"],
 						datasets: [{
-							label: 'km2 superficie por cobertura',
+							label: 'km² superficie por cobertura',
 							data: data_aux,
 							backgroundColor: [
 								'rgba(255, 99, 132, 0.2)',
@@ -329,8 +334,12 @@
 						legend: { display: false},
 						scales: {
 							yAxes: [{
+								scaleLabel:{
+									display:true,
+									labelString:'(km²)'
+								},
 								ticks: {
-									beginAtZero:true
+									beginAtZero:true								
 								}
 							}]
 						}
@@ -646,7 +655,7 @@
 									display: false
 							}],
 							yAxes: [{
-									display: false
+									display: false,
 							}]
 						}
 					}

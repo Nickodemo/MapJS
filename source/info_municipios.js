@@ -29,7 +29,7 @@
 		"hab":84.144,
 		"usos1987":[514093.4234731443, 479516.4682347979, 3730956.9214942567, 30541798.144000776, 66907197.61556698, 106713113.42670138, 13883062.653212765, 2079225.2499936349],
 		"usos2014":[3127903.946864821, 1101928.8086524017, 4867130.92760802, 102001976.33263892, 70059090.24913076, 40351854.468515605, 5100930.666094078, 2256161.9714790643],		
-		"descrip":"El término municipal de El Ejido se enclava entre Dalías al norte, el Mar Mediterráneo al sur, Berja al oeste  y Vícar, La Mojonera y Roquetas de Mar al este. Su principal característica orográfica es que su extensión es en su totalidad la planicie  de 45 m de altura. Se ubica en la demarcación natural del Campo de Dalías, región conocida por su intensiva agricultura bajo plástico."
+		"descrip":"El término municipal de El Ejido se enclava entre Dalías al norte, el Mar Mediterráneo al sur, Berja al oeste  y Vícar, La Mojonera y Roquetas de Mar al este. Su principal característica orográfica es que su extensión es en su totalidad una planicie de 45 m de altura. Se ubica en la demarcación natural del Campo de Dalías, región conocida por su intensiva agricultura bajo plástico."
 	},
 	"laMojonera":{
 		"name":"La Mojonera",
@@ -69,6 +69,6 @@
 		"hab":91.682,
 		"usos1987":[101834.4048515774, 1182040.6123173507, 2209571.0243331455, 12311019.106597675, 17669931.975692242, 14153093.075491529, 9454909.56485444, 3065568.374950216],
 		"usos2014":[0, 513781.3963969855, 2994530.786973391, 20123626.71558927, 10816959.4160027, 22545092.986102756, 1888611.2337405873, 1444551.036756002],
-		"descrip":"El término municipal de Roquetas limita al norte con Énix y Vícar, al oeste con el Ejido y La Mojonera y al sur con el Mar Mediterraneo. Su orografía se caracteriza por ser un terreno en general llano y de escasa altitud. Cuenta con varias ramblas, como la de El Cañuelo,6 la del Pastor y la de la Culebra. Se ubica en la demarcación natural del Campo de Dalías, región conocida por su intensiva agricultura bajo plástico."
+		"descrip":"El término municipal de Roquetas limita al norte con Énix y Vícar, al oeste con el Ejido y La Mojonera y al sur con el Mar Mediterraneo. Su orografía se caracteriza por ser un terreno en general llano y de escasa altitud. Cuenta con varias ramblas, como la de El Cañuelo, la del Pastor y la de la Culebra. Se ubica en la demarcación natural del Campo de Dalías, región conocida por su intensiva agricultura bajo plástico."
 	}
 }
