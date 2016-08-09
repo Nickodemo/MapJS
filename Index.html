@@ -219,8 +219,12 @@
 				<h4 style="color:orange" align="left">Hidrología</h4><p align="justify">El sistema hídrico de esta comarca está fuertemente condicionado por la Sierra de Gádor y se caracteriza por proporcionar las condiciones idóneas para la acumulación de recursos hídricos en diversos acuíferos (Tolón y Lastra, 2010). Sin embargo, hay que decir que se trata de agua con gran cantidad de sales y un bajo contenido en sodio, lo que supone un inconveniente para el cultivo, inconvenientes que trata de evitar la técnica del enarenado (Fernández y Pizarro, 1981).</p>
 			</div>
 			<div class="col-xs-12 col-sm-4">
-				<h4 style="color:orange" align="left">Agricultura</h4><p align="justify">El desarrollo económico almeriense está estrechamente ligado a su agricultura. La actual agricultura intensiva de la comarca ha conseguido crear un verdadero tejido industrial y de servicios, pues cuenta con un evolucionado sistema comercial, dispone de mano de obra más cualificada y un marco europeo más favorable (Instituto de Estudios de Cajamar, 2004).<br>El desarrollo de esta agricultura hortofrutícola intensiva fue posible gracias a la combinación de dos técnicas que hasta la segunda mitad del siglo XX no habían sido utilizadas en la provincia: el enarenado y los invernaderos.<br>El enarenado es una técnica que consiste en recubrir la tierra con una capa de arena de mar de 8 a 10 cm de espesor. Los beneficios de esta arena sobre el suelo consisten en la eliminación de la salinidad y alcalinidad, el aumento de su temperatura con rapidez y el aumento del desarrollo radicular. Aunque los cultivos enarenados se vieron por primera vez en La Rábita y El Pozuelo (Granada) hacia los años 20, su descubrimiento en Almería se produjo en 1956. A partir de este momento, el Instituto Nacional de Colonización constató que, tierras prácticamente estériles podían llegar a ser altamente productivas (Fernández y Pizarro, 1981).<br>Por otro lado, la utilización de los invernaderos no se produjo hasta principios de la década de los 60. Estos abrigos plásticos permitían aprovechar al máximo las privilegiadas temperaturas, así como las horas de insolación invernal. De esta manera, se fuerzan los rendimientos y se favorece la producción temprana de los cultivos, lo que permite conseguir hasta tres cosechas al año (Tolón y Lastra, 2010).</p>					
+				<h4 style="color:orange" align="left">Agricultura</h4><p align="justify">El desarrollo económico almeriense está estrechamente ligado a su agricultura. La actual agricultura intensiva de la comarca ha conseguido crear un verdadero tejido industrial y de servicios, pues cuenta con un evolucionado sistema comercial, dispone de mano de obra más cualificada y un marco europeo más favorable (Instituto de Estudios de Cajamar, 2004).</p>
+				<p align="justify">El desarrollo de esta agricultura hortofrutícola intensiva fue posible gracias a la combinación de dos técnicas que hasta la segunda mitad del siglo XX no habían sido utilizadas en la provincia: el enarenado y los invernaderos.</p>
+				<p align="justify">El enarenado es una técnica que consiste en recubrir la tierra con una capa de arena de mar de 8 a 10 cm de espesor. Los beneficios de esta arena sobre el suelo consisten en la eliminación de la salinidad y alcalinidad, el aumento de su temperatura con rapidez y el aumento del desarrollo radicular. Aunque los cultivos enarenados se vieron por primera vez en La Rábita y El Pozuelo (Granada) hacia los años 20, su descubrimiento en Almería se produjo en 1956. A partir de este momento, el Instituto Nacional de Colonización constató que, tierras prácticamente estériles podían llegar a ser altamente productivas (Fernández y Pizarro, 1981).</p>
+				<p align="justify">Por otro lado, la utilización de los invernaderos no se produjo hasta principios de la década de los 60. Estos abrigos plásticos permitían aprovechar al máximo las privilegiadas temperaturas, así como las horas de insolación invernal. De esta manera, se fuerzan los rendimientos y se favorece la producción temprana de los cultivos, lo que permite conseguir hasta tres cosechas al año (Tolón y Lastra, 2010).</p>					
 				<canvas id="myhomeChart" width="555" height="280"></canvas>
+				<p align="right" style="font-size:10px;">Fuente: Censo agrario, 1989 y 1999</p>
 			</div>
 		</div>
 
@@ -675,26 +679,26 @@
 		datasets: [
 			{
 				scaleFontColor: "#FFFFFF",
-				label: "",
+				label: 'ha',
 				backgroundColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(0, 128, 128, 1)',
-					'rgba(233,150,122, 1)'
+					'rgba(255, 99, 132, 0.5)',
+					'rgba(152,251,152, 0.5)',
+					'rgba(154,205,50, 0.5)',
+					'rgba(0,255,255, 0.5)',
+					'rgba(153, 102, 255, 0.5)',
+					'rgba(255,0,0, 0.5)',
+					'rgba(255,140,0, 0.5)',
+					'rgba(233,150,122, 0.5)'
 					
 				],
 				borderColor: [
 					'rgba(255,99,132,1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
+					'rgba(152,251,152, 1)',
+					'rgba(154,205,50, 1)',
+					'rgba(0,255,255, 1)',
 					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)',
-					'rgba(0, 128, 128, 1)',
+					'rgba(255,0,0, 1)',
+					'rgba(255,140,0, 1)',
 					'rgba(233,150,122, 1)'
 				],
 				borderWidth: 1,
@@ -707,8 +711,9 @@
 		data: data,
 		options: {			
 			title: {
+				fontColor:'#FFFFFF',
 				display: true,
-				text: 'Incremento de superficie de los invernaderos (1989-1999). Fuente: Censo agrario, 1989 y 1999.'
+				text: 'Incremento de superficie de los invernaderos (1989-1999)'
 			},
 			legend: { display: false },
 			scales: {
@@ -716,7 +721,11 @@
 							display: true
 					}],
 					yAxes: [{
-							display: false
+							display: true,
+							scaleLabel:{
+								display:true,
+								labelString:'(ha)'
+							}
 					}]
 				}
 			}
