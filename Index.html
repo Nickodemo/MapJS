@@ -12,7 +12,7 @@
 	<!--Libreria Leaflet-->
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<script src="lib/leaflet.js"></script>
-	
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
 	<!--Sincronización del mapa-->	
 	<script src="lib/leaflet.mouseCoordinate.js"></script>
 	<link rel="stylesheet" href="css/leaflet.mouseCoordinate.css"/>
@@ -156,6 +156,9 @@
 			line-height: 18px;
 			color: 	#FFFFFF;
 		}
+		.capital::first-letter {
+		  font-size: 34px;
+		}
 	</style>
 </head>
 
@@ -206,7 +209,7 @@
 		<div id="home" class="inner cover" style="display: none;">
 			<!--<h1 class="cover-heading" style="float: left;">El Poniente Almeriense</h1>	-->
 			<div class="col-xs-12 col-sm-4">
-				<h2 class="cover-heading" style="color:orange" align="left">El Poniente Almeriense</h2><p align="justify">El Poniente Almeriense es una de las siete comarcas de la provincia de Almería. Tiene una superficie de 970 km² y cuenta con 220.000 habitantes. Hasta 2015, estaba formada por nueve municipios: Roquetas de Mar, Vícar, La Mojonera, El Ejido, Adra, Dalías, Berja, Enix y Felix. Se sitúa en el suroeste de la provincia, limitado al norte por la Sierra de Gádor, por el Mar Mediterráneo al sur, al este lo hace con Almería capital y al oeste con el municipio de Albuñol (Granada).</p>
+				<h2 class="cover-heading" style="color:orange" align="left">El Poniente Almeriense</h2><p class="capital" align="justify">El Poniente Almeriense es una de las siete comarcas de la provincia de Almería. Tiene una superficie de 970 km² y cuenta con 220.000 habitantes. Hasta 2015, estaba formada por nueve municipios: Roquetas de Mar, Vícar, La Mojonera, El Ejido, Adra, Dalías, Berja, Enix y Felix. Se sitúa en el suroeste de la provincia, limitado al norte por la Sierra de Gádor, por el Mar Mediterráneo al sur, al este lo hace con Almería capital y al oeste con el municipio de Albuñol (Granada).</p>
 				<img src="./res/situacion_web2.JPG" class="img-responsive">
 				<h4 style="color:orange" align="left">Orografía</h4><p align="justify">En lo que a orografía se refiere, el Poniente Almeriense cuenta con cuatro unidades del relieve: la Sierra de Gádor, la Sierra de Adra, el Campo de Dalías y la Hoya de Adra. Tiene una altitud media de 300 m aproximadamente, pudiéndose distinguir tres franjas: una zona elevada, en la que se encuentran Felix y Enix; una zona de altitud media en la que se ubican Dalías, Berja y Vicar; y a pie de costa El Ejido, La Mojonera, Adra y Roquetas de Mar.</p>
 				<h4 style="color:orange" align="left">Geología</h4><p align="justify">Geológicamente hablando, el Poniente Almeriense se enmarca dentro de la Zona Bética o Interna de las Cordilleras Béticas. Según el metamorfismo, las características estratográficas y las manifestaciones magmáticas, la Zona Bética que se encuentra en la provincia se puede dividir en tres unidades: Complejo Nevado-Filábride, Complejo Maláguide y Complejo Alpujárride, y es en éste en el que se encuentra gran parte de la superficie del Poniente Almeriense. De los tres complejos mencionados, constituye la unidad tectónica intermedia y se compone principalmente de esquistos, filitas y cuarcitas, triásicas, rocas ígneas básicas, dolomías y mármoles (Sánchez-Martos, F. et al., 2001). </p>
@@ -223,7 +226,7 @@
 				<p align="justify">El desarrollo de esta agricultura hortofrutícola intensiva fue posible gracias a la combinación de dos técnicas que hasta la segunda mitad del siglo XX no habían sido utilizadas en la provincia: el enarenado y los invernaderos.</p>
 				<p align="justify">El enarenado es una técnica que consiste en recubrir la tierra con una capa de arena de mar de 8 a 10 cm de espesor. Los beneficios de esta arena sobre el suelo consisten en la eliminación de la salinidad y alcalinidad, el aumento de su temperatura con rapidez y el aumento del desarrollo radicular. Aunque los cultivos enarenados se vieron por primera vez en La Rábita y El Pozuelo (Granada) hacia los años 20, su descubrimiento en Almería se produjo en 1956. A partir de este momento, el Instituto Nacional de Colonización constató que, tierras prácticamente estériles podían llegar a ser altamente productivas (Fernández y Pizarro, 1981).</p>
 				<p align="justify">Por otro lado, la utilización de los invernaderos no se produjo hasta principios de la década de los 60. Estos abrigos plásticos permitían aprovechar al máximo las privilegiadas temperaturas, así como las horas de insolación invernal. De esta manera, se fuerzan los rendimientos y se favorece la producción temprana de los cultivos, lo que permite conseguir hasta tres cosechas al año (Tolón y Lastra, 2010).</p>					
-				<canvas id="myhomeChart" width="555" height="280"></canvas>
+				<canvas id="myhomeChart" width="555" height="280" style="margin-top: 5px;"></canvas>
 				<p align="right" style="font-size:10px;">Fuente: Censo agrario, 1989 y 1999</p>
 			</div>
 		</div>
@@ -365,7 +368,10 @@
 		OSM2014 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
 		streets2014  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
 		streets1987  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
-
+	var layerWatercolor1987 = new L.StamenTileLayer("watercolor");
+	var layerWatercolor2014 = new L.StamenTileLayer("watercolor");
+	var layerTerrain1987 = new L.StamenTileLayer("terrain");
+	var layerTerrain2014 = new L.StamenTileLayer("terrain");
 	//Creo la capa en leaflet
 	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	var layer_usos2014=new L.geoJson(Usos_suelo_2014,{style:style});
@@ -373,12 +379,12 @@
 		layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
-		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
+	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [layerWatercolor2014,layerTerrain2014,OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
+		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [layerWatercolor1987,layerTerrain1987,OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
 	
 	//Mapas base
-	var basemap2014 = { "Grayscale": OSM2014, "Streets": streets2014 };
-		basemap1987 = { "Grayscale": OSM1987, "Streets": streets1987 };
+	var basemap2014 = {"Watercolor": layerWatercolor2014, "Terrain": layerTerrain2014, "Grayscale": OSM2014, "Streets": streets2014 };
+		basemap1987 = {"Watercolor": layerWatercolor1987, "Terrain": layerTerrain1987, "Grayscale": OSM1987, "Streets": streets1987 };
 
 	//Capas
 	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987};
@@ -421,13 +427,15 @@
 	var miniMap1 = new L.Control.MiniMap(osm1, {
 		toggleDisplay: true,
 		minimized: true,
-		width: 230
+		width: 230,
+		centerFixed: [36.81,-2.81]
 	}).addTo(map1987);
 	
 	var miniMap2 = new L.Control.MiniMap(osm2, {
 		toggleDisplay: true,
 		minimized: true,
-		width: 230
+		width: 230,
+		centerFixed: [36.81,-2.81]
 	}).addTo(map2014);
 	
 	//Escala distancia abajo izquierda
