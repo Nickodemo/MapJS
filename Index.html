@@ -348,7 +348,8 @@
 						}
 					}
 				});
-			}			
+			}
+			mapEvent = 0;			
 		});
 
 	$("#info_modal").hide();
@@ -539,12 +540,11 @@
 	map1987.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 1987 con Turf.js
 		mapEvent = 1987;
 		geoprocesos1987(e);
-		mapEvent = 0;
 	});	
 	map2014.on('draw:created', function (e) { //Esta función llama a todos los casos de drawControl y calcula intersección sobre el mapa 2014 con Turf.js
 		mapEvent = 2014;
 		geoprocesos2014(e);
-		mapEvent = 0;
+		
 	});
 	
 	map1987.on('draw:deleted', function (e) {
