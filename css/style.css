@@ -1,8 +1,10 @@
 /*
-@license
-Ocupacion del suelo en el Poniente Almeriense
-This software is allowed to use under GPL or you need to obtain Commercial License 
- to use it in non-GPL project. Please contact e.salido.castro@gmail.com for details
+	Custom css style for Map Template, by Elena Salido 2016
+	@license
+	Ocupacion del suelo en el Poniente Almeriense
+	This software is allowed to use under GPL or you need to obtain Commercial License 
+	to use it in non-GPL project. Please contact e.salido.castro@gmail.com for details
+	(c) 2016, Elena Salido
 */
 .leaflet-bottom .leaflet-control-scale {
 	margin-bottom: 10px;
