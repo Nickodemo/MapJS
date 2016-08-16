@@ -11,8 +11,7 @@
     <link href="css/cover.css" rel="stylesheet">   
 	<!--Libreria Leaflet-->
 	<link rel="stylesheet" href="css/leaflet.css" />
-	<script src="lib/leaflet.js"></script>
-	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+	<script src="lib/leaflet.js"></script>	
 	<!--Sincronización del mapa-->	
 	<script src="lib/leaflet.mouseCoordinate.js"></script>
 	<link rel="stylesheet" href="css/leaflet.mouseCoordinate.css"/>
@@ -373,10 +372,7 @@
 		OSM2014 = L.tileLayer(mbUrl, { attribution: mbAttr, id: 'mapbox.light', maxZoom: 18 });
 		streets2014  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
 		streets1987  = L.tileLayer(mbUrl, {id: 'mapbox.streets', attribution: mbAttr, maxZoom: 18});
-	var layerWatercolor1987 = new L.StamenTileLayer("watercolor");
-	var layerWatercolor2014 = new L.StamenTileLayer("watercolor");
-	var layerTerrain1987 = new L.StamenTileLayer("terrain");
-	var layerTerrain2014 = new L.StamenTileLayer("terrain");
+		
 	//Creo la capa en leaflet
 	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	var layer_usos2014=new L.geoJson(Usos_suelo_2014,{style:style});
@@ -384,12 +380,12 @@
 		layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [layerWatercolor2014,layerTerrain2014,OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
-		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [layerWatercolor1987,layerTerrain1987,OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
+	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
+		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
 	
 	//Mapas base
-	var basemap2014 = {"Watercolor": layerWatercolor2014, "Terrain": layerTerrain2014, "Grayscale": OSM2014, "Streets": streets2014 };
-		basemap1987 = {"Watercolor": layerWatercolor1987, "Terrain": layerTerrain1987, "Grayscale": OSM1987, "Streets": streets1987 };
+	var basemap2014 = {"Grayscale": OSM2014, "Streets": streets2014 };
+		basemap1987 = {"Grayscale": OSM1987, "Streets": streets1987 };
 
 	//Capas
 	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987};
