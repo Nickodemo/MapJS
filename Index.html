@@ -174,7 +174,7 @@
 				]
 			};
 			
-			// Chart initialisieren
+			// creacion de Chart
 			if (map1987.isSynced()) {	//Si el map1987 está sincronizado	
 				var ctx = $("#myRadarChart");
 				var myRadarChart = new Chart(ctx, {
@@ -346,7 +346,7 @@
         usos = ["Vegetación escasa", "Salinas", "Pastizal", "Masas de agua", "Huerta", "Frutal", "Cultivos forzados", "Arbolado forestal"],
         labels = [];
 
-		// loop through our density intervals and generate a label with a colored square for each interval
+		// bucle a través de nuestros intervalos de densidad y generar una etiqueta con un cuadrado de color para cada intervalo
 		for (var i = 0; i < usos.length; i++) {
 			div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
 		}
@@ -571,6 +571,7 @@
 					}
 				}
 			);
+			// ajuste del tamaño de la grafica en el popup
 			$('#myPopupChart2014').width(191);
 			$('#myPopupChart2014').height(68);
 		}else{
