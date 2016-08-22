@@ -42,6 +42,12 @@
 	<script src="source/Comarca_2014.js"></script>
 	<!--Capa municipios-->
 	<script src="source/Municipios.js"></script>
+	<!--Capa urbano-->
+	<script src="source/urbano.js"></script>
+	<!--Capa rios-->
+	<script src="source/rios.js"></script>
+	<!--Capa viales-->
+	<script src="source/viales.js"></script>
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
 	<!--Capa 2014-->		
@@ -208,24 +214,24 @@
 							label: 'km² superficie por cobertura',
 							data: data_aux,
 							backgroundColor: [
-								'rgba(175,238,238,0.2)',
+								'rgba(135,206,250,0.2)',
 								'rgba(0,100,0, 0.2)',
 								'rgba(255, 140, 0, 0.2)',
 								'rgba(230,230,250, 0.2)',
 								'rgba(255,218,185, 0.2)',
 								'rgba(144,238,144, 0.2)',
 								'rgba(255,222,173, 0.2)',
-								'rgba(135,206,250, 0.2)'
+								'rgba(175,238,238, 0.2)'
 							],
 							borderColor: [
-								'rgba(175,238,238,1)',
+								'rgba(135,206,250,1)',
 								'rgba(0,100,0, 1)',
 								'rgba(255, 140, 0, 1)',
 								'rgba(230,230,250, 1)',
 								'rgba(255,218,185, 1)',
 								'rgba(144,238,144, 1)',
 								'rgba(255,222,173, 1)',
-								'rgba(135,206,250, 1)'
+								'rgba(175,238,238, 1)'
 							],
 							borderWidth: 1
 						}]
@@ -270,8 +276,14 @@
 	//Creo la capa en leaflet
 	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	var layer_usos2014=new L.geoJson(Usos_suelo_2014,{style:style});
-	var layer_municipios1987=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea1987}),
-		layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
+	var layer_municipios1987=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea1987});
+	var	layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
+	var layer_rios1987=new L.geoJson(rios, {style:style_rios});
+	var layer_rios2014=new L.geoJson(rios, {style:style_rios});
+	var layer_viales1987=new L.geoJson(viales, {style:style_viales});
+	var layer_viales2014=new L.geoJson(viales, {style:style_viales});
+	var layer_urbano1987=new L.geoJson(urbano, {style:style_urbano});
+	var layer_urbano2014=new L.geoJson(urbano, {style:style_urbano});
 	
 	//Constructor mapa
 	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
@@ -282,8 +294,8 @@
 		basemap1987 = {"Grayscale": OSM1987, "Streets": streets1987 };
 
 	//Capas
-	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987};
-		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014};
+	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987, "Hidrografía":layer_rios1987, "Carreteras":layer_viales1987, "Suelo urbano":layer_urbano1987};
+		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014, "Hidrografía":layer_rios2014, "Carreteras":layer_viales2014, "Suelo urbano":layer_urbano2014};
 		
 	//Control de capas
 	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);//falta meter las capas del uso del suelo para activar/desactivar
@@ -470,24 +482,24 @@
 					{
 						label: "",
 						backgroundColor: [
-							'rgba(175,238,238,0.2)',
+							'rgba(135,206,250,0.2)',
 							'rgba(0,100,0, 0.2)',
 							'rgba(255, 140, 0,0.2)',
 							'rgba(230,230,250, 0.2)',
 							'rgba(255,218,185, 0.2)',
 							'rgba(144,238,144, 0.2)',
 							'rgba(222,184,135, 0.2)',
-							'rgba(135,206,250, 0.2)'
+							'rgba(175,238,238, 0.2)'
 						],
 						borderColor: [
-							'rgba(175,238,238,1)',
+							'rgba(135,206,250,1)',
 							'rgba(0,100,0, 1)',
 							'rgba(255, 140, 0, 1)',
 							'rgba(230,230,250, 1)',
 							'rgba(255,218,185, 1)',
 							'rgba(144,238,144, 1)',
 							'rgba(222,184,135, 1)',
-							'rgba(135,206,250, 1)'
+							'rgba(175,238,238, 1)'
 						],
 						borderWidth: 1,
 						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
@@ -531,24 +543,24 @@
 					{
 						label: "",
 						backgroundColor: [
-							'rgba(175,238,238,0.2)',
+							'rgba(135,206,250,0.2)',
 							'rgba(0,100,0, 0.2)',
 							'rgba(255, 140, 0, 0.2)',
 							'rgba(230,230,250, 0.2)',
 							'rgba(255,218,185, 0.2)',
 							'rgba(144,238,144, 0.2)',
 							'rgba(222,184,135, 0.2)',
-							'rgba(135,206,250, 0.2)'
+							'rgba(175,238,238, 0.2)'
 						],
 						borderColor: [
-							'rgba(175,238,238,1)',
+							'rgba(135,206,250,1)',
 							'rgba(0,100,0, 1)',
 							'rgba(255, 140, 0, 1)',
 							'rgba(230,230,250, 1)',
 							'rgba(255,218,185, 1)',
 							'rgba(144,238,144, 1)',
 							'rgba(222,184,135, 1)',
-							'rgba(135,206,250, 1)'
+							'rgba(175,238,238, 1)'
 						],
 						borderWidth: 1,
 						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
