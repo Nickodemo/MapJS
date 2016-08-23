@@ -278,27 +278,33 @@
 	var layer_usos2014=new L.geoJson(Usos_suelo_2014,{style:style});
 	var layer_municipios1987=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea1987});
 	var	layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
+	var layer_comarca1987=new L.geoJson(Comarca_1987,{style:style_comarca});
+	var layer_comarca2014=new L.geoJson(Comarca_2014,{style:style_comarca});
 	var layer_rios1987=new L.geoJson(rios, {style:style_rios});
 	var layer_rios2014=new L.geoJson(rios, {style:style_rios});
+	var layer_rios1987_border=new L.geoJson(rios, {style:style_boderrios});
+	var layer_rios2014_border=new L.geoJson(rios, {style:style_boderrios});
 	var layer_viales1987=new L.geoJson(viales, {style:style_viales});
 	var layer_viales2014=new L.geoJson(viales, {style:style_viales});
+	var layer_viales1987_border=new L.geoJson(viales, {style:style_borderviales});
+	var layer_viales2014_border=new L.geoJson(viales, {style:style_borderviales});
 	var layer_urbano1987=new L.geoJson(urbano, {style:style_urbano});
-	var layer_urbano2014=new L.geoJson(urbano, {style:style_urbano});
+	var layer_urbano2014=new L.geoJson(urbano, {style:style_urbano});	
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
-		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
+	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_comarca2014, layer_municipios2014,layer_viales2014_border,layer_viales2014,layer_urbano2014,layer_rios2014_border,layer_rios2014] });
+		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_comarca1987, layer_municipios1987,layer_viales1987_border,layer_viales1987,layer_urbano1987,layer_rios1987_border,layer_rios1987] });
 	
 	//Mapas base
 	var basemap2014 = {"Grayscale": OSM2014, "Streets": streets2014 };
 		basemap1987 = {"Grayscale": OSM1987, "Streets": streets1987 };
 
 	//Capas
-	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987, "Hidrografía":layer_rios1987, "Carreteras":layer_viales1987, "Suelo urbano":layer_urbano1987};
-		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014, "Hidrografía":layer_rios2014, "Carreteras":layer_viales2014, "Suelo urbano":layer_urbano2014};
+	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987, /*"Hidrografía":layer_rios1987, "Carreteras":layer_viales1987, "Carreteras1":layer_viales1987_border, "Suelo urbano":layer_urbano1987*/};
+		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014, /*"Hidrografía":layer_rios2014, "Carreteras":layer_viales2014, "Carreteras1":layer_viales2014_border, "Suelo urbano":layer_urbano2014*/};
 		
 	//Control de capas
-	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);//falta meter las capas del uso del suelo para activar/desactivar
+	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);
 	L.control.layers(basemap1987,overlayMaps1987).addTo(map1987);
 	
 	//Mapa de situación
