@@ -336,21 +336,6 @@
 	var mouse_control = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 	var mouse_control2014 = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);	
 	
-	//Minimapa
-	var miniMap1 = new L.Control.MiniMap(osm1, {
-		toggleDisplay: true,
-		minimized: true,
-		width: 230,
-		centerFixed: [36.81,-2.81]
-	}).addTo(map1987);
-	
-	var miniMap2 = new L.Control.MiniMap(osm2, {
-		toggleDisplay: true,
-		minimized: true,
-		width: 230,
-		centerFixed: [36.81,-2.81]
-	}).addTo(map2014);
-	
 	//Escala distancia abajo izquierda
 	L.control.scale().addTo(map2014);
 	L.control.scale().addTo(map1987);
@@ -363,19 +348,63 @@
     var div = L.DomUtil.create('div', 'info legend'),
         usos = ["Vegetación escasa", "Salinas", "Pastizal", "Masas de agua", "Huerta", "Frutal", "Cultivos forzados", "Arbolado forestal"],
         labels = [];
-
-		// bucle a través de nuestros intervalos de densidad y generar una etiqueta con un cuadrado de color para cada intervalo
-		for (var i = 0; i < usos.length; i++) {
-			div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
-		}
+		
+		
+	div.innerHTML += '<b>Coberturas:</b><br>';
+	// bucle a través de nuestros intervalos de densidad y generar una etiqueta con un cuadrado de color para cada intervalo
+	for (var i = 0; i < usos.length; i++) {
+		div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
+	}
+	
+	/*div.innerHTML += '<b>Carreteras:</b><br> <i style="background:' + getColor(usos[3]) + '"></i> Autonómica <br> ';
+	div.innerHTML += '<i style="background:' + getColor(usos[1]) + '"></i> Convencional <br> ';
+	div.innerHTML += '<i style="background:' + getColor(usos[1]) + '"></i> Autovía <br> ';		
+	div.innerHTML += '<b>Núcleos urbanos:</b><br> <i style="background:' + getColor(usos[3]) + '"></i><br> ';
+	div.innerHTML += '<b>Hidrografía:</b><br> <i style="background:' + getColor(usos[1]) + '"></i><br> ';*/
 
     return div;
+	};
+	
+	var legend2 = L.control({width: 230, position: 'bottomright'});
+
+	legend2.onAdd = function (map) {
+	var div2 = L.DomUtil.create('div', 'info legend'),
+		usos = ["Vegetación escasa", "Salinas", "Pastizal", "Masas de agua", "Huerta", "Frutal", "Cultivos forzados", "Arbolado forestal"],
+		labels = [],
+		urlurbano = "res/urbano.png";
+		urlctra = "res/ctra.png";
+		urlcconv = "res/cconv.png";
+		urlavia = "res/avia.png";
+		urlrios = "res/rios.png";
+		
+	div2.innerHTML += '<b>Carreteras:</b><br> <i style="background: url('+urlcconv+');"></i> Autonómica 2º orden<br> ';
+	div2.innerHTML += '<i style="background: url('+urlctra+');"></i> Autonómica 3º orden<br> ';
+	div2.innerHTML += '<i style="background: url('+urlavia+');"></i> Autovía <br> ';		
+	div2.innerHTML += '<b>Construcciones:</b><br> <i style="background: url('+ urlurbano +');"></i> Núcleos urbanos<br> ';
+	div2.innerHTML += '<b>Hidrografía:</b><br> <i style="background:url('+ urlrios +');"></i> Curso de agua <br> ';
+
+    return div2;
 	};
 
 	legend.addTo(map1987);
 	legend.addTo(map2014);
+	legend2.addTo(map1987);
+	legend2.addTo(map2014);
 		
+	//Minimapa
+	var miniMap1 = new L.Control.MiniMap(osm1, {
+		toggleDisplay: true,
+		minimized: true,
+		width: 156,
+		centerFixed: [36.81,-2.81]
+	}).addTo(map1987);
 	
+	var miniMap2 = new L.Control.MiniMap(osm2, {
+		toggleDisplay: true,
+		minimized: true,
+		width: 156,
+		centerFixed: [36.81,-2.81]
+	}).addTo(map2014);
 	
 		
 	//Geoprocesos con Turf.js
@@ -475,6 +504,17 @@
 				drawnItems1987_edit.removeLayer(layer._leaflet_id - 1);
 			});
 		
+	});
+	
+	//Ordenamos capas de municipios y usos del suelo para que siempre sea seleccionable municipios y sean visibles los popup
+	map1987.on('overlayadd', function (e) {
+		if(e.name==="Usos del suelo"){e.layer.bringToBack();} 
+		if(e.name==="Municipios"){e.layer.bringToFront();}
+	});
+	
+	map2014.on('overlayadd', function (e) {
+		if(e.name==="Usos del suelo"){e.layer.bringToBack();} 
+		if(e.name==="Municipios"){e.layer.bringToFront();}
 	});
 	
 	//Esta funcion se invoca despues de mostrar el popoup, sirve solamente para rellenar la graficas en PostRender
