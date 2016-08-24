@@ -356,12 +356,6 @@
 		div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
 	}
 	
-	/*div.innerHTML += '<b>Carreteras:</b><br> <i style="background:' + getColor(usos[3]) + '"></i> Autonómica <br> ';
-	div.innerHTML += '<i style="background:' + getColor(usos[1]) + '"></i> Convencional <br> ';
-	div.innerHTML += '<i style="background:' + getColor(usos[1]) + '"></i> Autovía <br> ';		
-	div.innerHTML += '<b>Núcleos urbanos:</b><br> <i style="background:' + getColor(usos[3]) + '"></i><br> ';
-	div.innerHTML += '<b>Hidrografía:</b><br> <i style="background:' + getColor(usos[1]) + '"></i><br> ';*/
-
     return div;
 	};
 	
@@ -376,10 +370,12 @@
 		urlcconv = "res/cconv.png";
 		urlavia = "res/avia.png";
 		urlrios = "res/rios.png";
+		urlnac = "res/nac.png";
 		
-	div2.innerHTML += '<b>Carreteras:</b><br> <i style="background: url('+urlcconv+');"></i> Autonómica 2º orden<br> ';
-	div2.innerHTML += '<i style="background: url('+urlctra+');"></i> Autonómica 3º orden<br> ';
-	div2.innerHTML += '<i style="background: url('+urlavia+');"></i> Autovía <br> ';		
+	div2.innerHTML += '<b>Carreteras:</b><br> <i style="background: url('+urlavia+');"></i> Autovía <br> ';
+	div2.innerHTML += '<i style="background: url('+urlnac+');"></i> Nacional <br> ';	
+	div2.innerHTML += '<i style="background: url('+urlcconv+');"></i> Autonómica 2º orden<br> ';
+	div2.innerHTML += '<i style="background: url('+urlctra+');"></i> Autonómica 3º orden<br> ';	
 	div2.innerHTML += '<b>Construcciones:</b><br> <i style="background: url('+ urlurbano +');"></i> Núcleos urbanos<br> ';
 	div2.innerHTML += '<b>Hidrografía:</b><br> <i style="background:url('+ urlrios +');"></i> Curso de agua <br> ';
 
