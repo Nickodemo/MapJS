@@ -34,6 +34,9 @@
 	<script src="lib/LeafletCircleToPolygon.js"></script>
 	<!--L.Polyline.measuredDistance.js-->
 	<script src="lib/L.Polyline.measuredDistance.js"></script>
+	<!--IconLabel.js-->
+	<link rel="stylesheet" href="css/Icon.Label.css" />
+	<script src="lib/Icon.Label.js"></script>
 	<!--Chart.js-->
 	<script src="lib/chart.js"></script>	
 	<!--Capa comarca 1987-->
@@ -712,6 +715,41 @@
 	);
 	$('#myhomeChart').width(555);
 	$('#myhomeChart').height(280);
+	
+	var markers1987 = new L.FeatureGroup(),
+		markers2014 = new L.FeatureGroup(),
+		SweetIcon = L.Icon.Label.extend({
+			options: {
+				iconUrl: 'res/map.ico',
+				shadowUrl: null,
+				iconSize: new L.Point(1, 1),
+				iconAnchor: new L.Point(0, 1),
+				labelAnchor: new L.Point(26, 0),
+				wrapperAnchor: new L.Point(12, 13),
+				labelClassName: 'sweet-deal-label'
+			}
+		});
+
+	map1987.addLayer(markers1987);
+	map2014.addLayer(markers2014);
+	
+	map1987.on('zoomend',function() { 
+		if(map1987.getZoom()<12){
+			markers1987.clearLayers();
+		}else{
+			markers1987.clearLayers();
+			populate();
+		}
+	});
+	
+	map2014.on('zoomend',function() { 
+		if(map2014.getZoom()<12){
+			markers2014.clearLayers();
+		}else{
+			markers2014.clearLayers();
+			populate();
+		}
+	});
 	
 	//WorkAround!
 	views_type('home');
