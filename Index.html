@@ -42,6 +42,12 @@
 	<script src="source/Comarca_2014.js"></script>
 	<!--Capa municipios-->
 	<script src="source/Municipios.js"></script>
+	<!--Capa urbano-->
+	<script src="source/urbano.js"></script>
+	<!--Capa rios-->
+	<script src="source/rios.js"></script>
+	<!--Capa viales-->
+	<script src="source/viales.js"></script>
 	<!--Capa 1987-->		
 	<script src="source/Usos_suelo_1987.js"></script>
 	<!--Capa 2014-->		
@@ -153,7 +159,7 @@
 				datasets: [
 					{
 						label: "km² Mapa 1987",
-						backgroundColor: "rgba(179,181,198,0.2)",
+						backgroundColor: "rgba(179,181,198,0.7)",
 						borderColor: "rgba(179,181,198,1)",
 						pointBackgroundColor: "rgba(179,181,198,1)",
 						pointBorderColor: "#fff",
@@ -163,7 +169,7 @@
 					},
 					{
 						label: "km² Mapa 2014",
-						backgroundColor: "rgba(255,99,132,0.2)",
+						backgroundColor: "rgba(255,99,132,0.7)",
 						borderColor: "rgba(255,99,132,1)",
 						pointBackgroundColor: "rgba(255,99,132,1)",
 						pointBorderColor: "#fff",
@@ -208,24 +214,24 @@
 							label: 'km² superficie por cobertura',
 							data: data_aux,
 							backgroundColor: [
-								'rgba(175,238,238,0.2)',
-								'rgba(0,100,0, 0.2)',
-								'rgba(255, 140, 0, 0.2)',
-								'rgba(230,230,250, 0.2)',
-								'rgba(255,218,185, 0.2)',
-								'rgba(144,238,144, 0.2)',
-								'rgba(255,222,173, 0.2)',
-								'rgba(135,206,250, 0.2)'
+								'rgba(135,206,250,0.7)',
+								'rgba(0,100,0, 0.7)',
+								'rgba(255, 140, 0, 0.7)',
+								'rgba(230,230,250, 0.7)',
+								'rgba(255,218,185, 0.7)',
+								'rgba(144,238,144, 0.7)',
+								'rgba(255,222,173, 0.7)',
+								'rgba(175,238,238, 0.7)'
 							],
 							borderColor: [
-								'rgba(175,238,238,1)',
+								'rgba(135,206,250,1)',
 								'rgba(0,100,0, 1)',
 								'rgba(255, 140, 0, 1)',
 								'rgba(230,230,250, 1)',
 								'rgba(255,218,185, 1)',
 								'rgba(144,238,144, 1)',
 								'rgba(255,222,173, 1)',
-								'rgba(135,206,250, 1)'
+								'rgba(175,238,238, 1)'
 							],
 							borderWidth: 1
 						}]
@@ -270,23 +276,35 @@
 	//Creo la capa en leaflet
 	var layer_usos1987=new L.geoJson(Usos_suelo_1987,{style:style});
 	var layer_usos2014=new L.geoJson(Usos_suelo_2014,{style:style});
-	var layer_municipios1987=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea1987}),
-		layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
+	var layer_municipios1987=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea1987});
+	var	layer_municipios2014=new L.geoJson(Municipios, {style:style_municipios, onEachFeature: PopupArea2014});
+	var layer_comarca1987=new L.geoJson(Comarca_1987,{style:style_comarca});
+	var layer_comarca2014=new L.geoJson(Comarca_2014,{style:style_comarca});
+	var layer_rios1987=new L.geoJson(rios, {style:style_rios});
+	var layer_rios2014=new L.geoJson(rios, {style:style_rios});
+	var layer_rios1987_border=new L.geoJson(rios, {style:style_boderrios});
+	var layer_rios2014_border=new L.geoJson(rios, {style:style_boderrios});
+	var layer_viales1987=new L.geoJson(viales, {style:style_viales});
+	var layer_viales2014=new L.geoJson(viales, {style:style_viales});
+	var layer_viales1987_border=new L.geoJson(viales, {style:style_borderviales});
+	var layer_viales2014_border=new L.geoJson(viales, {style:style_borderviales});
+	var layer_urbano1987=new L.geoJson(urbano, {style:style_urbano});
+	var layer_urbano2014=new L.geoJson(urbano, {style:style_urbano});	
 	
 	//Constructor mapa
-	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_municipios2014] });
-		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_municipios1987] });
+	var map2014 = L.map('map2014', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM2014,streets2014,layer_usos2014,layer_comarca2014, layer_municipios2014,layer_viales2014_border,layer_viales2014,layer_urbano2014,layer_rios2014_border,layer_rios2014] });
+		map1987= L.map('map1987', { center: [36.81,-2.81], zoom: 10, attributionControl: false, layers: [OSM1987,streets1987,layer_usos1987,layer_comarca1987, layer_municipios1987,layer_viales1987_border,layer_viales1987,layer_urbano1987,layer_rios1987_border,layer_rios1987] });
 	
 	//Mapas base
 	var basemap2014 = {"Grayscale": OSM2014, "Streets": streets2014 };
 		basemap1987 = {"Grayscale": OSM1987, "Streets": streets1987 };
 
 	//Capas
-	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987};
-		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014};
+	var overlayMaps1987 = {"Usos del suelo": layer_usos1987, "Municipios": layer_municipios1987, /*"Hidrografía":layer_rios1987, "Carreteras":layer_viales1987, "Carreteras1":layer_viales1987_border, "Suelo urbano":layer_urbano1987*/};
+		overlayMaps2014 = {"Usos del suelo": layer_usos2014, "Municipios": layer_municipios2014, /*"Hidrografía":layer_rios2014, "Carreteras":layer_viales2014, "Carreteras1":layer_viales2014_border, "Suelo urbano":layer_urbano2014*/};
 		
 	//Control de capas
-	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);//falta meter las capas del uso del suelo para activar/desactivar
+	L.control.layers(basemap2014,overlayMaps2014).addTo(map2014);
 	L.control.layers(basemap1987,overlayMaps1987).addTo(map1987);
 	
 	//Mapa de situación
@@ -318,21 +336,6 @@
 	var mouse_control = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map1987);
 	var mouse_control2014 = new L.control.mouseCoordinate({utm:true,gps:false,position:'bottomright'}).addTo(map2014);	
 	
-	//Minimapa
-	var miniMap1 = new L.Control.MiniMap(osm1, {
-		toggleDisplay: true,
-		minimized: true,
-		width: 230,
-		centerFixed: [36.81,-2.81]
-	}).addTo(map1987);
-	
-	var miniMap2 = new L.Control.MiniMap(osm2, {
-		toggleDisplay: true,
-		minimized: true,
-		width: 230,
-		centerFixed: [36.81,-2.81]
-	}).addTo(map2014);
-	
 	//Escala distancia abajo izquierda
 	L.control.scale().addTo(map2014);
 	L.control.scale().addTo(map1987);
@@ -345,19 +348,59 @@
     var div = L.DomUtil.create('div', 'info legend'),
         usos = ["Vegetación escasa", "Salinas", "Pastizal", "Masas de agua", "Huerta", "Frutal", "Cultivos forzados", "Arbolado forestal"],
         labels = [];
-
-		// bucle a través de nuestros intervalos de densidad y generar una etiqueta con un cuadrado de color para cada intervalo
-		for (var i = 0; i < usos.length; i++) {
-			div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
-		}
-
+		
+		
+	div.innerHTML += '<b>Coberturas:</b><br>';
+	// bucle a través de nuestros intervalos de densidad y generar una etiqueta con un cuadrado de color para cada intervalo
+	for (var i = 0; i < usos.length; i++) {
+		div.innerHTML += '<i style="background:' + getColor(usos[i]) + '"></i> ' + usos[i] +' <br> ';
+	}
+	
     return div;
+	};
+	
+	var legend2 = L.control({width: 230, position: 'bottomright'});
+
+	legend2.onAdd = function (map) {
+	var div2 = L.DomUtil.create('div', 'info legend'),
+		usos = ["Vegetación escasa", "Salinas", "Pastizal", "Masas de agua", "Huerta", "Frutal", "Cultivos forzados", "Arbolado forestal"],
+		labels = [],
+		urlurbano = "res/urbano.png";
+		urlctra = "res/ctra.png";
+		urlcconv = "res/cconv.png";
+		urlavia = "res/avia.png";
+		urlrios = "res/rios.png";
+		urlnac = "res/nac.png";
+		
+	div2.innerHTML += '<b>Carreteras:</b><br> <i style="background: url('+urlavia+');"></i> Autovía <br> ';
+	div2.innerHTML += '<i style="background: url('+urlnac+');"></i> Nacional <br> ';	
+	div2.innerHTML += '<i style="background: url('+urlcconv+');"></i> Autonómica 2º orden<br> ';
+	div2.innerHTML += '<i style="background: url('+urlctra+');"></i> Autonómica 3º orden<br> ';	
+	div2.innerHTML += '<b>Construcciones:</b><br> <i style="background: url('+ urlurbano +');"></i> Núcleos urbanos<br> ';
+	div2.innerHTML += '<b>Hidrografía:</b><br> <i style="background:url('+ urlrios +');"></i> Curso de agua <br> ';
+
+    return div2;
 	};
 
 	legend.addTo(map1987);
 	legend.addTo(map2014);
+	legend2.addTo(map1987);
+	legend2.addTo(map2014);
 		
+	//Minimapa
+	var miniMap1 = new L.Control.MiniMap(osm1, {
+		toggleDisplay: true,
+		minimized: true,
+		width: 156,
+		centerFixed: [36.81,-2.81]
+	}).addTo(map1987);
 	
+	var miniMap2 = new L.Control.MiniMap(osm2, {
+		toggleDisplay: true,
+		minimized: true,
+		width: 156,
+		centerFixed: [36.81,-2.81]
+	}).addTo(map2014);
 	
 		
 	//Geoprocesos con Turf.js
@@ -459,6 +502,17 @@
 		
 	});
 	
+	//Ordenamos capas de municipios y usos del suelo para que siempre sea seleccionable municipios y sean visibles los popup
+	map1987.on('overlayadd', function (e) {
+		if(e.name==="Usos del suelo"){e.layer.bringToBack();} 
+		if(e.name==="Municipios"){e.layer.bringToFront();}
+	});
+	
+	map2014.on('overlayadd', function (e) {
+		if(e.name==="Usos del suelo"){e.layer.bringToBack();} 
+		if(e.name==="Municipios"){e.layer.bringToFront();}
+	});
+	
 	//Esta funcion se invoca despues de mostrar el popoup, sirve solamente para rellenar la graficas en PostRender
 	map1987.on('popupopen', function (e) {
 		if(e.popup._source.feature){
@@ -470,24 +524,24 @@
 					{
 						label: "",
 						backgroundColor: [
-							'rgba(175,238,238,0.2)',
-							'rgba(0,100,0, 0.2)',
-							'rgba(255, 140, 0,0.2)',
-							'rgba(230,230,250, 0.2)',
-							'rgba(255,218,185, 0.2)',
-							'rgba(144,238,144, 0.2)',
-							'rgba(222,184,135, 0.2)',
-							'rgba(135,206,250, 0.2)'
+							'rgba(135,206,250,0.7)',
+							'rgba(0,100,0, 0.7)',
+							'rgba(255, 140, 0,0.7)',
+							'rgba(230,230,250, 0.7)',
+							'rgba(255,218,185, 0.7)',
+							'rgba(144,238,144, 0.7)',
+							'rgba(222,184,135, 0.7)',
+							'rgba(175,238,238, 0.7)'
 						],
 						borderColor: [
-							'rgba(175,238,238,1)',
+							'rgba(135,206,250,1)',
 							'rgba(0,100,0, 1)',
 							'rgba(255, 140, 0, 1)',
 							'rgba(230,230,250, 1)',
 							'rgba(255,218,185, 1)',
 							'rgba(144,238,144, 1)',
 							'rgba(222,184,135, 1)',
-							'rgba(135,206,250, 1)'
+							'rgba(175,238,238, 1)'
 						],
 						borderWidth: 1,
 						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
@@ -531,24 +585,24 @@
 					{
 						label: "",
 						backgroundColor: [
-							'rgba(175,238,238,0.2)',
-							'rgba(0,100,0, 0.2)',
-							'rgba(255, 140, 0, 0.2)',
-							'rgba(230,230,250, 0.2)',
-							'rgba(255,218,185, 0.2)',
-							'rgba(144,238,144, 0.2)',
-							'rgba(222,184,135, 0.2)',
-							'rgba(135,206,250, 0.2)'
+							'rgba(135,206,250,0.7)',
+							'rgba(0,100,0, 0.7)',
+							'rgba(255, 140, 0, 0.7)',
+							'rgba(230,230,250, 0.7)',
+							'rgba(255,218,185, 0.7)',
+							'rgba(144,238,144, 0.7)',
+							'rgba(222,184,135, 0.7)',
+							'rgba(175,238,238, 0.7)'
 						],
 						borderColor: [
-							'rgba(175,238,238,1)',
+							'rgba(135,206,250,1)',
 							'rgba(0,100,0, 1)',
 							'rgba(255, 140, 0, 1)',
 							'rgba(230,230,250, 1)',
 							'rgba(255,218,185, 1)',
 							'rgba(144,238,144, 1)',
 							'rgba(222,184,135, 1)',
-							'rgba(135,206,250, 1)'
+							'rgba(175,238,238, 1)'
 						],
 						borderWidth: 1,
 						data: getAreaUsos(info_municipios[getMunicipio(e.popup)].usos2014),
