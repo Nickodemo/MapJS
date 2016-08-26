@@ -141,3 +141,33 @@ p.label_der {
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 	margin-left: -29px !important;
 }
+
+.sweet-deal-label-rios{
+	background-color: transparent;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	font: 11px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+	margin-left: -28px !important;
+	font-style: oblique;
+	-ms-transform: rotate(-55deg); /* IE 9 */
+    -webkit-transform: rotate(-51deg); /* Chrome, Safari, Opera */
+    transform: rotate(-55deg);
+	color:#3A6198;
+}
+
+.sweet-deal-label-large-rios{
+	background-color: transparent;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;	
+	font: 13px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+	margin-left: -15px !important;
+	font-style: oblique;
+	-ms-transform: rotate(51deg); /* IE 9 */
+    -webkit-transform: rotate(51deg); /* Chrome, Safari, Opera */
+    transform: rotate(51deg);
+	color:#3A6198;
+}
