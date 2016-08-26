@@ -120,13 +120,24 @@ p.label_der {
 }
 
 .sweet-deal-label {
-	background-color: #FE57A1;
 	background-color: transparent;
 	-moz-box-shadow: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #696969;
-	font: 15px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
-	font-weight: bold;
+	font: 14px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 	margin-left: -25px !important;
+}
+
+.sweet-deal-label-large {
+	background-color: transparent;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: #696969;
+	font: 17px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
+	font-weight: bold;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+	margin-left: -29px !important;
 }

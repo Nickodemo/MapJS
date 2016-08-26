@@ -720,7 +720,7 @@
 		markers2014 = new L.FeatureGroup(),
 		SweetIcon = L.Icon.Label.extend({
 			options: {
-				iconUrl: 'res/map.ico',
+				iconUrl: 'res/maps.ico',
 				shadowUrl: null,
 				iconSize: new L.Point(1, 1),
 				iconAnchor: new L.Point(0, 1),
@@ -729,26 +729,28 @@
 				labelClassName: 'sweet-deal-label'
 			}
 		});
-
+	var LargeIcon = L.Icon.Label.extend({
+			options: {
+				iconUrl: 'res/maps.ico',
+				shadowUrl: null,
+				iconSize: new L.Point(1, 1),
+				iconAnchor: new L.Point(0, 1),
+				labelAnchor: new L.Point(26, 0),
+				wrapperAnchor: new L.Point(12, 13),
+				labelClassName: 'sweet-deal-label-large'
+			}
+		});
 	map1987.addLayer(markers1987);
 	map2014.addLayer(markers2014);
 	
 	map1987.on('zoomend',function() { 
-		if(map1987.getZoom()<12){
-			markers1987.clearLayers();
-		}else{
-			markers1987.clearLayers();
-			populate();
-		}
+		markers1987.clearLayers();
+		populate(map1987.getZoom());
 	});
 	
 	map2014.on('zoomend',function() { 
-		if(map2014.getZoom()<12){
-			markers2014.clearLayers();
-		}else{
-			markers2014.clearLayers();
-			populate();
-		}
+		markers2014.clearLayers();
+		populate(map2014.getZoom());
 	});
 	
 	//WorkAround!
