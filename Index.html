@@ -729,6 +729,7 @@
 				labelClassName: 'sweet-deal-label'
 			}
 		});
+		
 	var LargeIcon = L.Icon.Label.extend({
 			options: {
 				iconUrl: 'res/maps.ico',
@@ -752,6 +753,7 @@
 				labelClassName: 'sweet-deal-label-rios'
 			}
 		});
+		
 	var LargeIconRios = L.Icon.Label.extend({
 			options: {
 				iconUrl: 'res/maps.ico',
@@ -764,6 +766,18 @@
 			}
 		});
 		
+	var IconViales = L.Icon.Label.extend({
+			options: {
+				iconUrl: 'res/maps.ico',
+				shadowUrl: null,
+				iconSize: new L.Point(1, 1),
+				iconAnchor: new L.Point(0, 1),
+				labelAnchor: new L.Point(26, 0),
+				wrapperAnchor: new L.Point(12, 13),
+				labelClassName: 'sweet-deal-label-viales'
+			}
+	});
+		
 	map1987.addLayer(markers1987);
 	map2014.addLayer(markers2014);
 	
@@ -771,12 +785,14 @@
 		markers1987.clearLayers();
 		populate(map1987.getZoom());
 		rivers(map1987.getZoom());
+		roads(map1987.getZoom());
 	});
 	
 	map2014.on('zoomend',function() { 
 		markers2014.clearLayers();
 		populate(map2014.getZoom());
 		rivers(map2014.getZoom());
+		roads(map2014.getZoom());
 	});
 	
 	//WorkAround!

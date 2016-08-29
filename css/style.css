@@ -171,3 +171,19 @@ p.label_der {
     transform: rotate(51deg);
 	color:#3A6198;
 }
+
+.sweet-deal-label-viales{
+	border-radius: 0px;
+	background-color: #FFFFFF;
+    padding: 1px 4px;
+    border-style: solid;
+    border-width: 1px;
+	border-color: #696969;
+	-moz-box-shadow: #3A6198;
+	-webkit-box-shadow: none;
+	box-shadow: none;	
+	font: 9px "DejaVu Sans Book",DejaVu Sans Book,Arial,Sans-serif;
+	text-shadow: none;
+	margin-left: -15px !important;		
+	color: #696969;
+}
