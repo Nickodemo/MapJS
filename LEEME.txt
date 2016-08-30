@@ -1,0 +1,28 @@
+UNIVERSIDAD DE JAÉN
+Escuela Politécnica Superior
+Ingeniería Geodesia y Cartografía
+=================================
+
+Este es un proyecto desarrollado para el proyecto fin de carrera "Estudio multitemporal de la ocupación del suelo en el Poniente Almeriense entre 1987 y 2014".
+
+
+OBSERVACIONES:
+-------------
+
+Esta aplicación es compatible con los siguientes navegadores: 
+  - Firefox 42.0
+  - Chrome 52.0.2743.116 m
+  - Microsoft Edge
+  Nota: No compatible con Internet Explorer 8 o inferiores.
+
+Se recomienda visualizar con resolución 1920x1080.
+
+
+INSTRUCCIONES:
+-------------
+
+Ejecutar Index.html haciendo doble click o botón derecho "Abrir como".
+
+
+==========================================================================
+This software is allowed to use under GPL or you need to obtain Commercial License to use it in non-GPL project. Please contact e.salido.castro@gmail.com for details (c) 2016, Elena Salido
